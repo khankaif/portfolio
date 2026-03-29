@@ -16,18 +16,23 @@ interface ProjectItem {
 
 const PROJECTS: ProjectItem[] = [
     {
-        title: "Enterprise Jewelry Platform",
-        subtitle: "B2B made-to-order jewelry management",
-        href: "#",
+        title: "UnivDiam Custom Portal",
+        subtitle: "End-to-end React workflow platform — custom orders → CAD → approval → production",
+        href: "https://www.skvinvest.de/portfolio",
     },
     {
         title: "Zefyron SaaS Platform",
-        subtitle: "Deal platforms, event management, pitch decks",
+        subtitle: "Enterprise deal flow, event & pitch platform — product design, €1M raised (NDA)",
+        href: "https://zefyron.com/en",
+    },
+    {
+        title: "Carpe Diam B2B Platform",
+        subtitle: "React platform for jewelry retailers — asset management, CAD sharing, order tracking",
         href: "#",
     },
     {
-        title: "Design System Library",
-        subtitle: "React + TypeScript + Storybook",
+        title: "Jewelry ERP & QC Tool",
+        subtitle: "React + Supabase — production management & quality control system",
         href: "#",
         soon: true,
     },
@@ -36,23 +41,53 @@ const PROJECTS: ProjectItem[] = [
 const STACK: ProjectItem[] = [
     {
         title: "React & TypeScript",
-        subtitle: "Core frontend stack",
+        subtitle: "Core frontend — components, hooks, state, React Query",
         href: "https://react.dev",
     },
     {
+        title: "Next.js",
+        subtitle: "App Router, SSR, full-stack React applications",
+        href: "https://nextjs.org",
+    },
+    {
         title: "Figma",
-        subtitle: "UI/UX design & prototyping",
+        subtitle: "Design systems, prototyping, developer handoff",
         href: "https://figma.com",
     },
     {
-        title: "shadcn/ui",
-        subtitle: "Component library & design system",
+        title: "shadcn/ui & TailwindCSS",
+        subtitle: "Component library, design system implementation",
         href: "https://ui.shadcn.com",
     },
     {
-        title: "VS Code",
-        subtitle: "Primary development environment",
-        href: "https://code.visualstudio.com",
+        title: "Supabase, PocketBase & Convex",
+        subtitle: "BaaS — auth, real-time data, serverless backends",
+        href: "https://supabase.com",
+    },
+    {
+        title: "PostgreSQL & MongoDB",
+        subtitle: "Relational and document databases",
+        href: "https://postgresql.org",
+    },
+    {
+        title: "GSAP & Framer Motion",
+        subtitle: "Production animation — scroll, transitions, interactions",
+        href: "https://gsap.com",
+    },
+    {
+        title: "Webflow, Framer & Shopify",
+        subtitle: "No-code — CMS sites, interactive builds, eCommerce",
+        href: "https://webflow.com",
+    },
+    {
+        title: "Vercel, Netlify & Railway",
+        subtitle: "Deployment, CI/CD, environment management",
+        href: "https://vercel.com",
+    },
+    {
+        title: "n8n",
+        subtitle: "Workflow automation, internal tool integrations",
+        href: "https://n8n.io",
     },
 ];
 
@@ -163,21 +198,25 @@ export default function About() {
                 {/* Bio */}
                 <div className="flex flex-col gap-4 text-[14.5px] text-muted-foreground leading-[1.7]">
                     <p>
-                        Started as a Computer Engineering student in 2018. Got bored with backend
-                        systems, fell in love with interfaces. By 2020, I was designing and building
-                        web applications end-to-end.
+                        Computer Engineering graduate who chose interfaces over infrastructure.
+                        Started designing in 2020, shipped my first professional product in 2021,
+                        and never stopped doing both.
                     </p>
                     <p>
-                        In 2021, joined a startup as a UI/UX intern. By 2022, I was shipping Webflow
-                        sites, design systems, and SaaS interfaces for enterprise clients. In 2023,
-                        became core design team member at Zefyron, a funded SaaS platform (€1M raise),
-                        owning product design for web and mobile applications.
+                        Spent 3 years as core product designer at Zefyron — an enterprise SaaS platform
+                        that raised €1M — owning UX research, design systems, and product direction
+                        across deal flow, event management, and investor tooling. Alongside that, built
+                        and launched 5+ Webflow sites and multiple Shopify stores for real clients.
                     </p>
                     <p>
-                        In 2024-2025, transitioned to Product Engineering — designing and developing
-                        enterprise B2B platforms in React, TypeScript, and modern frontend stacks.
-                        I don&apos;t just design mockups. I don&apos;t just write code. I ship products that
-                        solve real business problems.
+                        In 2025, crossed fully into engineering. Designed and built the UnivDiam
+                        custom order portal end-to-end — React, TypeScript, Socket.IO, real-time
+                        workflows. Currently building a B2B jewelry platform and ERP system at
+                        Carpe Diam. I own the problem from research to deployed product.
+                    </p>
+                    <p>
+                        No handoffs. No translation loss. One person who can take a business problem
+                        and ship it.
                     </p>
                 </div>
             </section>
@@ -188,8 +227,8 @@ export default function About() {
             {/* ── Projects Section ─────────────────────────────────────────── */}
             <section className="w-full max-w-[500px] flex flex-col gap-5">
                 <SectionHeading
-                    title="Recent Work"
-                    subtitle="From enterprise B2B platforms to funded SaaS products — building end-to-end with design and code."
+                    title="Selected Work"
+                    subtitle="Real products, real clients — designed and built end-to-end."
                 />
                 <div className="flex flex-col">
                     {PROJECTS.map((item) => (
@@ -205,7 +244,7 @@ export default function About() {
             <section className="w-full max-w-[500px] flex flex-col gap-5">
                 <SectionHeading
                     title="Stack"
-                    subtitle="The tools and technologies I use daily to design, build, and ship products."
+                    subtitle="Design tools, frontend frameworks, backends, and no-code — the full picture."
                 />
                 <div className="flex flex-col">
                     {STACK.map((item) => (

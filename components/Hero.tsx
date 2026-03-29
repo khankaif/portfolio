@@ -33,13 +33,13 @@ export default function Hero() {
                 >
                     I Build Products From Pixel to Production
                     <span className="mx-2 inline-block" aria-hidden="true">⚡</span>
-                    <span>Product Engineer who </span>
+                    <span className="glitch-animation">Design Engineer who </span>
 
                     <span className="inline-flex items-center gap-2">
                         <span
                             className="font-semibold"
                         >
-                            designs and codes
+                            thinks in UX, ships in React
                         </span>
                         <span className="inline-block -rotate-12 transition-transform hover:rotate-0" aria-hidden="true">
                             🚀
@@ -54,7 +54,7 @@ export default function Hero() {
                     className="mt-4 text-[15px] leading-relaxed transition-colors duration-300"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    Design → Engineering → Product. I operate at the intersection, shipping end-to-end.
+                    4 years building real products. Figma is where I start. Production is where I finish.
                 </p>
 
             </div>

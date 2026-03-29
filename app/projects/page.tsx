@@ -111,7 +111,7 @@ export default async function ProjectsPage() {
     }
 
     return (
-        <div className="min-h-screen pt-24 pb-32 bg-background font-sans">
+        <div className="min-h-screen pt-24 pb-32 font-sans">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-[40px]">
                 {/* Responsive CSS columns for masonry layout */}
                 <div className="columns-1 sm:columns-2 lg:columns-3 gap-6">

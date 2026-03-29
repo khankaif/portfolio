@@ -163,7 +163,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
     }
 
     return (
-        <div className="min-h-screen bg-background font-sans">
+        <div className="min-h-screen font-sans">
 
             {/* ── Main Split ── */}
             <div className="flex flex-col lg:flex-row min-h-screen pt-[60px] mx-auto max-w-[1440px]">
