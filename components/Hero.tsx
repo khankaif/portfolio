@@ -54,7 +54,7 @@ export default function Hero() {
                     className="mt-4 text-[15px] leading-relaxed transition-colors duration-300"
                     style={{ color: "var(--color-text-secondary)" }}
                 >
-                    4 years building real products. Figma is where I start. Production is where I finish.
+                    5 years building real products. Figma is where I start. Production is where I finish.
                 </p>
 
             </div>
