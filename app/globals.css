@@ -128,3 +128,31 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+@keyframes glitch {
+  0%, 85%, 100% {
+    clip-path: none;
+    transform: translate(0);
+    opacity: 1;
+  }
+  86% {
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+    transform: translate(-2px, 0);
+    opacity: 0.9;
+  }
+  88% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    transform: translate(2px, 0);
+    opacity: 0.9;
+  }
+  90% {
+    clip-path: none;
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+
+.glitch-animation {
+  animation: glitch 6s ease-in-out infinite;
+  display: inline;
+}

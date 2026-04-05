@@ -73,7 +73,7 @@ export default function Navbar() {
                 className="w-10 h-10 flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-300 cursor-pointer"
                 title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
-                {theme === "dark" ? <Moon size={18} strokeWidth={2} /> : <Sun size={18} strokeWidth={2} />}
+                {theme === "dark" ? <Sun size={18} strokeWidth={2} /> : <Moon size={18} strokeWidth={2} />}
             </button>
         </nav>
     );

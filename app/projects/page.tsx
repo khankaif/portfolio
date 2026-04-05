@@ -25,7 +25,10 @@ export default async function ProjectsPage() {
     return (
         <div className="min-h-screen px-6 pt-20 pb-32 flex flex-col items-center">
             <section className="w-full max-w-[760px] flex flex-col gap-8">
-                <div className="flex flex-col gap-3">
+                <div
+                    className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700"
+                    style={{ animationFillMode: "both" }}
+                >
                     <h1 className="text-[clamp(2rem,5vw,3.2rem)] font-semibold tracking-[-0.04em] leading-[1.02] text-foreground">
                         Case studies that show how I think under real product pressure.
                     </h1>
@@ -36,11 +39,20 @@ export default async function ProjectsPage() {
                     </p>
                 </div>
 
-                <div className="w-full h-px bg-border" />
+                <div
+                    className="w-full h-px bg-border animate-in fade-in duration-700"
+                    style={{ animationDelay: "200ms", animationFillMode: "both" }}
+                />
 
                 <div className="flex flex-col">
-                    {projects.map((project) => (
-                        <ProjectRow key={project._id} project={project} />
+                    {projects.map((project, index) => (
+                        <div
+                            key={project._id}
+                            className="animate-in fade-in slide-in-from-bottom-2 duration-700"
+                            style={{ animationDelay: `${300 + index * 80}ms`, animationFillMode: "both" }}
+                        >
+                            <ProjectRow project={project} />
+                        </div>
                     ))}
                 </div>
             </section>
@@ -55,7 +67,7 @@ function ProjectRow({ project }: { project: SanityProject }) {
     return (
         <Link
             href={`/projects/${project.slug.current}`}
-            className="group grid grid-cols-1 gap-2 border-b border-border/40 py-5 sm:grid-cols-[80px_1fr_auto] sm:items-start sm:gap-5 hover:border-foreground/40 transition-colors duration-300"
+            className="group grid grid-cols-1 gap-2 border-b border-border/40 py-5 sm:grid-cols-[80px_1fr_auto] sm:items-start sm:gap-5 hover:border-foreground/30 hover:bg-muted/20 transition-all duration-300 rounded-sm px-2 -mx-2"
         >
             <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70">
                 {year}

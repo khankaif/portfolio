@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { ALL_SLUGS_QUERY, PROJECT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 interface StatItem {
     _key: string;
@@ -120,6 +121,7 @@ export default async function ProjectPage({
     return (
         <div className="min-h-screen px-6 pt-20 pb-28 flex flex-col items-center">
             <article className="w-full max-w-[760px] flex flex-col gap-12">
+                <ScrollReveal>
                 <header className="flex flex-col gap-6">
                     <div className="flex flex-wrap items-center gap-2">
                         <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
@@ -158,141 +160,160 @@ export default async function ProjectPage({
                     </div>
 
                 </header>
+                </ScrollReveal>
 
                 {heroUrl && (
-                    <figure className="rounded-2xl overflow-hidden border border-border/60 bg-muted">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={heroUrl} alt={project.title} className="w-full h-auto block object-cover" />
-                    </figure>
+                    <ScrollReveal delay={0.05}>
+                        <figure className="rounded-2xl overflow-hidden border border-border/60 bg-muted">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={heroUrl} alt={project.title} className="w-full h-auto block object-cover" />
+                        </figure>
+                    </ScrollReveal>
                 )}
 
                 <div className="w-full h-px bg-border" />
 
-                <StorySection
-                    label="Act I"
-                    title="Business context"
-                    intro="The value starts with understanding what was broken operationally, not just what looked outdated."
-                >
-                    <p className="text-[14.5px] leading-[1.9] text-muted-foreground">
-                        {challengeText || "Detailed business context coming soon."}
-                    </p>
-                </StorySection>
-
-                <StorySection
-                    label="Act II"
-                    title="How I executed"
-                    intro="Execution is split into strategic moves across design and engineering so ownership is clear."
-                >
-                    {strategicMoves.length > 0 ? (
-                        <ol className="flex flex-col">
-                            {strategicMoves.map((move, index) => (
-                                <li
-                                    key={`${move.track}-${index}`}
-                                    className="py-4 border-b border-border/40 first:pt-0 last:pb-0 last:border-0 grid grid-cols-[44px_88px_1fr] gap-4"
-                                >
-                                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70 pt-1">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground pt-1">
-                                        {move.track}
-                                    </span>
-                                    <p className="text-[14px] leading-[1.8] text-muted-foreground">
-                                        {move.text}
-                                    </p>
-                                </li>
-                            ))}
-                        </ol>
-                    ) : (
-                        <p className="text-[14px] leading-[1.8] text-muted-foreground">
-                            Execution details are being added.
+                <ScrollReveal>
+                    <StorySection
+                        label="Act I"
+                        title="Business context"
+                        intro="The value starts with understanding what was broken operationally, not just what looked outdated."
+                    >
+                        <p className="text-[14.5px] leading-[1.9] text-muted-foreground">
+                            {challengeText || "Detailed business context coming soon."}
                         </p>
-                    )}
-                </StorySection>
+                    </StorySection>
+                </ScrollReveal>
+
+                <ScrollReveal>
+                    <StorySection
+                        label="Act II"
+                        title="How I executed"
+                        intro="Execution is split into strategic moves across design and engineering so ownership is clear."
+                    >
+                        {strategicMoves.length > 0 ? (
+                            <ol className="flex flex-col">
+                                {strategicMoves.map((move, index) => (
+                                    <li
+                                        key={`${move.track}-${index}`}
+                                        className="py-4 border-b border-border/40 first:pt-0 last:pb-0 last:border-0 grid grid-cols-[44px_88px_1fr] gap-4"
+                                    >
+                                        <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70 pt-1">
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
+                                        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground pt-1">
+                                            {move.track}
+                                        </span>
+                                        <p className="text-[14px] leading-[1.8] text-muted-foreground">
+                                            {move.text}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ol>
+                        ) : (
+                            <p className="text-[14px] leading-[1.8] text-muted-foreground">
+                                Execution details are being added.
+                            </p>
+                        )}
+                    </StorySection>
+                </ScrollReveal>
 
                 {mediaItems.length > 0 && (
-                    <StorySection
-                        label="Selected screens"
-                        title="Product snapshots"
-                        intro="Screens are useful only after context. This keeps the narrative anchored in decisions and outcomes."
-                    >
-                        <div className="flex flex-col gap-5">
-                            {mediaItems.map((item, index) => {
-                                const imageUrl = urlFor(item.image).width(1600).url();
-                                const caption = item.caption || `Screen ${index + 1}`;
+                    <ScrollReveal>
+                        <StorySection
+                            label="Selected screens"
+                            title="Product snapshots"
+                            intro="Screens are useful only after context. This keeps the narrative anchored in decisions and outcomes."
+                        >
+                            <div className="flex flex-col gap-5">
+                                {mediaItems.map((item, index) => {
+                                    const imageUrl = urlFor(item.image).width(1600).url();
+                                    const caption = item.caption || `Screen ${index + 1}`;
 
-                                return (
-                                    <figure
-                                        key={item._key}
-                                        className="rounded-xl overflow-hidden border border-border/60 bg-card"
-                                    >
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img src={imageUrl} alt={caption} className="w-full h-auto block object-cover" />
-                                        <figcaption className="px-4 py-3 text-[12.5px] text-muted-foreground border-t border-border/60">
-                                            {caption}
-                                        </figcaption>
-                                    </figure>
-                                );
-                            })}
-                        </div>
-                    </StorySection>
+                                    return (
+                                        <figure
+                                            key={item._key}
+                                            className="rounded-xl overflow-hidden border border-border/60 bg-card"
+                                        >
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={imageUrl} alt={caption} className="w-full h-auto block object-cover" />
+                                            <figcaption className="px-4 py-3 text-[12.5px] text-muted-foreground border-t border-border/60">
+                                                {caption}
+                                            </figcaption>
+                                        </figure>
+                                    );
+                                })}
+                            </div>
+                        </StorySection>
+                    </ScrollReveal>
                 )}
 
-                <StorySection
-                    label="Act III"
-                    title="Impact and outcomes"
-                    intro="Outcomes are what make a case study credible to startup teams and clients."
-                >
-                    <div className="flex flex-col gap-5">
-                        {stats.length > 0 && (
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-border/60 rounded-xl overflow-hidden bg-border/60">
-                                {stats.map((stat) => (
-                                    <div key={stat._key} className="bg-background px-5 py-5">
-                                        <p className="text-[28px] font-semibold leading-none tracking-[-0.04em] text-foreground">
-                                            {stat.value}
-                                        </p>
-                                        <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                                            {stat.label}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        <p className="text-[14.5px] leading-[1.9] text-muted-foreground">
-                            {outcomeText || "Outcome details are being added."}
-                        </p>
-                    </div>
-                </StorySection>
-
-                {technologies.length > 0 && (
+                <ScrollReveal>
                     <StorySection
-                        label="System"
-                        title="Technical stack"
-                        intro="Tools are listed for context, but the case study focus stays on decisions and outcomes."
+                        label="Act III"
+                        title="Impact and outcomes"
+                        intro="Outcomes are what make a case study credible to startup teams and clients."
                     >
-                        <div className="flex flex-wrap gap-2">
-                            {technologies.map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="px-3 py-1.5 rounded-full text-[12px] font-medium border border-border/60 bg-muted/30 text-foreground"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
+                        <div className="flex flex-col gap-5">
+                            {stats.length > 0 && (
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-border/60 rounded-xl overflow-hidden bg-border/60">
+                                    {stats.map((stat, index) => (
+                                        <div
+                                            key={stat._key}
+                                            className="bg-background px-5 py-5 animate-in fade-in zoom-in-95 duration-500"
+                                            style={{ animationDelay: `${index * 100}ms`, animationFillMode: "both" }}
+                                        >
+                                            <p className="text-[28px] font-semibold leading-none tracking-[-0.04em] text-foreground">
+                                                {stat.value}
+                                            </p>
+                                            <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                                {stat.label}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <p className="text-[14.5px] leading-[1.9] text-muted-foreground">
+                                {outcomeText || "Outcome details are being added."}
+                            </p>
                         </div>
                     </StorySection>
+                </ScrollReveal>
+
+                {technologies.length > 0 && (
+                    <ScrollReveal>
+                        <StorySection
+                            label="System"
+                            title="Technical stack"
+                            intro="Tools are listed for context, but the case study focus stays on decisions and outcomes."
+                        >
+                            <div className="flex flex-wrap gap-2">
+                                {technologies.map((tech) => (
+                                    <span
+                                        key={tech}
+                                        className="px-3 py-1.5 rounded-full text-[12px] font-medium border border-border/60 bg-muted/30 text-foreground hover:bg-foreground hover:text-background transition-colors duration-200 cursor-default"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                        </StorySection>
+                    </ScrollReveal>
                 )}
 
                 {project.projectUrl && (
-                    <a
-                        href={project.projectUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-foreground hover:text-muted-foreground transition-colors"
-                    >
-                        Visit live project
-                        <ArrowUpRight size={15} />
-                    </a>
+                    <ScrollReveal>
+                        <a
+                            href={project.projectUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center gap-1.5 text-[13px] font-medium text-foreground hover:text-muted-foreground transition-colors"
+                        >
+                            Visit live project
+                            <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </a>
+                    </ScrollReveal>
                 )}
             </article>
 

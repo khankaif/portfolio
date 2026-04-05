@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,17 +33,17 @@ const FAQS = [
 const SOCIALS = [
     {
         label: "GitHub",
-        href: "https://github.com",
+        href: "https://github.com/khankaif",
         icon: <Github size={18} aria-hidden="true" />,
     },
     {
         label: "LinkedIn",
-        href: "https://linkedin.com",
+        href: "https://linkedin.com/in/kaif-khan", // TODO: update with your actual LinkedIn URL
         icon: <Linkedin size={18} aria-hidden="true" />,
     },
     {
         label: "X / Twitter",
-        href: "https://x.com",
+        href: "https://x.com", // TODO: update with your actual X handle
         icon: <Twitter size={18} aria-hidden="true" />,
     },
 ];
@@ -54,7 +55,11 @@ export default function ContactPage() {
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        // Wire up your actual form handler here
+        const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
+        const body = encodeURIComponent(
+            `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+        );
+        window.location.href = `mailto:kaifkhan9619@gmail.com?subject=${subject}&body=${body}`;
         setSent(true);
     }
 
@@ -62,7 +67,12 @@ export default function ContactPage() {
         <div className="min-h-screen px-6 pt-20 pb-32 flex flex-col items-center gap-16">
 
             {/* ── Section: Form ─────────────────────────────────────────────── */}
-            <section className="w-full max-w-xl flex flex-col gap-8">
+            <motion.section
+                className="w-full max-w-xl flex flex-col gap-8"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
 
                 {/* Heading */}
                 <span className="flex items-center gap-3 flex-wrap text-[clamp(1.6rem,4.5vw,2rem)] font-medium tracking-tight leading-none text-foreground">
@@ -133,14 +143,20 @@ export default function ContactPage() {
                         </Button>
                     </form>
                 )}
-            </section>
+            </motion.section>
 
             {/* ── Section: FAQs ─────────────────────────────────────────────── */}
-            <section className="w-full max-w-xl flex flex-col gap-6">
+            <motion.section
+                className="w-full max-w-xl flex flex-col gap-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
                 <div className="text-center sm:text-left">
-                    <h2 className="mb-2 text-2xl font-bold tracking-tight text-foreground">FAQs</h2>
-                    <p className="text-sm text-muted-foreground">
-                        Find frequently asked questions people ask me:
+                    <h2 className="mb-2 text-[clamp(1.4rem,3vw,1.75rem)] font-medium tracking-[-0.03em] text-foreground">FAQs</h2>
+                    <p className="text-[13.5px] text-muted-foreground leading-relaxed">
+                        Questions people usually ask before reaching out:
                     </p>
                 </div>
 
@@ -160,10 +176,16 @@ export default function ContactPage() {
                         </AccordionItem>
                     ))}
                 </Accordion>
-            </section>
+            </motion.section>
 
             {/* ── Section: Socials ──────────────────────────────────────────── */}
-            <section className="w-full max-w-xl flex flex-col gap-4 items-center">
+            <motion.section
+                className="w-full max-w-xl flex flex-col gap-4 items-center"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
                 <div className="flex gap-3 flex-wrap justify-center">
                     {SOCIALS.map((s) => (
                         <a
@@ -179,7 +201,7 @@ export default function ContactPage() {
                         </a>
                     ))}
                 </div>
-            </section>
+            </motion.section>
 
         </div>
     );
