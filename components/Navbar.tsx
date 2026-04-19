@@ -38,12 +38,18 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
 
+    const isDark = theme === "dark";
+
     return (
         <nav
             className={`
-                fixed top-6 left-1/2 z-50 flex items-center gap-1 sm:gap-2 px-3 py-2 
-                rounded-full border border-border bg-background/80 text-foreground 
-                backdrop-blur-md shadow-sm transition-all duration-300 ease-in-out
+                fixed top-6 left-1/2 z-50 flex items-center gap-1 sm:gap-2 px-3 py-2
+                rounded-full border border-border bg-background/80 text-foreground
+                backdrop-blur-md transition-all duration-300 ease-in-out
+                ${isDark
+                    ? "shadow-[0_0_0_1px_rgba(0,225,255,0.10),0_4px_28px_rgba(0,225,255,0.07)]"
+                    : "shadow-[0_0_0_1px_rgba(255,159,33,0.10),0_4px_28px_rgba(255,159,33,0.07)]"
+                }
                 ${isVisible ? "-translate-x-1/2 translate-y-0 opacity-100" : "-translate-x-1/2 -translate-y-[150%] opacity-0 pointer-events-none"}
             `}
         >

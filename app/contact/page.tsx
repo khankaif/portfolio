@@ -3,15 +3,65 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Twitter, Mail } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+
+// ── Terminal-styled inputs ────────────────────────────────────────────────────
+function TerminalInput({
+    label,
+    ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
+    return (
+        <div className="flex flex-col gap-1.5 flex-1">
+            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60 select-none">
+                {label}
+            </span>
+            <div className="terminal-field flex items-center gap-2 border border-border/50 rounded-sm bg-background px-3 h-10 transition-all duration-200">
+                <span
+                    className="font-mono text-[13px] select-none shrink-0 leading-none"
+                    style={{ color: "var(--portfolio-accent)" }}
+                >
+                    ›
+                </span>
+                <input
+                    {...props}
+                    className="flex-1 bg-transparent font-mono text-[13px] outline-none text-foreground placeholder:text-muted-foreground/35"
+                />
+            </div>
+        </div>
+    );
+}
+
+function TerminalTextarea({
+    label,
+    ...props
+}: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string }) {
+    return (
+        <div className="flex flex-col gap-1.5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60 select-none">
+                {label}
+            </span>
+            <div className="terminal-field flex items-start gap-2 border border-border/50 rounded-sm bg-background px-3 pt-2.5 pb-2 transition-all duration-200">
+                <span
+                    className="font-mono text-[13px] select-none shrink-0 mt-[1px] leading-none"
+                    style={{ color: "var(--portfolio-accent)" }}
+                >
+                    ›
+                </span>
+                <textarea
+                    {...props}
+                    className="flex-1 bg-transparent font-mono text-[13px] outline-none text-foreground placeholder:text-muted-foreground/35 resize-y min-h-[100px]"
+                />
+            </div>
+        </div>
+    );
+}
 
 // ── FAQ data ──────────────────────────────────────────────────────────────────
 const FAQS = [
@@ -87,7 +137,7 @@ export default function ContactPage() {
                         <Mail size={16} aria-hidden="true" />
                     </a>
 
-                    touch
+                    <ScrambleText text="touch" trigger="inView" hold={420} duration={750} />
                 </span>
 
                 {/* Subtext */}
@@ -100,46 +150,47 @@ export default function ContactPage() {
 
                 {/* Form */}
                 {sent ? (
-                    <div className="p-6 rounded-xl bg-muted text-center text-sm font-medium text-foreground">
-                        ✅ Message sent! I&apos;ll get back to you soon.
+                    <div className="p-5 rounded-sm border border-border/40 bg-muted/20 flex items-center gap-3">
+                        <span className="font-mono text-[13px]" style={{ color: "var(--portfolio-accent)" }}>›</span>
+                        <p className="font-mono text-[13px] text-foreground">
+                            Sent. I&apos;ll reply within 48h.
+                        </p>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                        {/* Top row */}
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <Input
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <TerminalInput
                                 type="text"
                                 required
-                                placeholder="Full name"
+                                placeholder="your name"
                                 value={form.name}
                                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                                className="bg-background border-border/60 focus-visible:border-foreground focus-visible:ring-0 rounded-md text-[14px] h-11"
+                                label="name"
                             />
-                            <Input
+                            <TerminalInput
                                 type="email"
                                 required
-                                placeholder="E-mail"
+                                placeholder="your email"
                                 value={form.email}
                                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                                className="bg-background border-border/60 focus-visible:border-foreground focus-visible:ring-0 rounded-md text-[14px] h-11"
+                                label="email"
                             />
                         </div>
-                        {/* Message */}
-                        <Textarea
+                        <TerminalTextarea
                             required
-                            placeholder="Message..."
+                            placeholder="what are we building?"
                             rows={5}
                             value={form.message}
                             onChange={(e) => setForm({ ...form, message: e.target.value })}
-                            className="bg-background border-border/60 focus-visible:border-foreground focus-visible:ring-0 rounded-md text-[14px] min-h-[120px] resize-y"
+                            label="message"
                         />
-                        {/* Submit */}
                         <Button
                             type="submit"
                             size="lg"
-                            className="w-full sm:w-fit mt-2 rounded-md font-medium px-8"
+                            className="w-full sm:w-fit mt-1 rounded-sm font-mono font-medium px-8 tracking-wide"
                         >
-                            Send Message
+                            Send message
+                            <span className="ml-2 opacity-50">↵</span>
                         </Button>
                     </form>
                 )}

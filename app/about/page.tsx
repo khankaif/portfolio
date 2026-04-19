@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, MapPin, Code, Palette } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import PhysicsSkills from "@/components/PhysicsSkills";
+import ScrambleText from "@/components/ScrambleText";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -247,7 +248,7 @@ function LinkRow({ title, subtitle, href, soon, logoSrcs }: ProjectItem & { logo
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 py-3 border-b border-border/40 hover:border-foreground/30 hover:bg-muted/20 transition-all duration-300 rounded-sm px-1 -mx-1"
+            className="accent-left-hover group flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 py-3 border-b border-border/40 hover:border-foreground/30 hover:bg-muted/20 transition-all duration-300 rounded-sm px-1 -mx-1"
         >
             <div className="flex items-center gap-3 min-w-0">
                 {logoSrcs && logoSrcs.length > 0 && (
@@ -289,8 +290,8 @@ function LinkRow({ title, subtitle, href, soon, logoSrcs }: ProjectItem & { logo
 function SectionHeading({ title, subtitle }: { title: string; subtitle: string }) {
     return (
         <div className="flex flex-col gap-2 mb-2">
-            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
-                {title}
+            <h3 className="mono-label font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
+                <ScrambleText text={title} trigger="inView" hold={380} duration={800} />
             </h3>
             <p className="text-[14px] text-foreground leading-relaxed">{subtitle}</p>
         </div>
@@ -341,7 +342,13 @@ export default function About() {
                     </span>
                     <CodeIcon />
                     <span className="text-[clamp(1.6rem,4.5vw,2rem)] font-medium tracking-tight">
-                        engineer&nbsp;based&nbsp;in
+                        <ScrambleText
+                            text="engineer"
+                            trigger="mount"
+                            hold={480}
+                            duration={1000}
+                            delay={800}
+                        />&nbsp;based&nbsp;in
                     </span>
                     <LocationIcon />
                     <span className="text-[clamp(1.6rem,4.5vw,2rem)] font-medium tracking-tight">

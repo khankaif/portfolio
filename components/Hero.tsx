@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import AnimatedGradient from "@/components/AnimatedGradient";
 import ASCIIBackground from "@/components/ASCIIBackground";
 import { useTheme } from "@/components/ThemeProvider";
+import ScrambleText from "@/components/ScrambleText";
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -47,7 +48,13 @@ export default function Hero() {
                 >
                     I Build Products From Pixel to Production
                     <span className="mx-2 inline-block" aria-hidden="true">⚡</span>
-                    <span className="glitch-animation">Design Engineer who </span>
+                    <ScrambleText
+                        text="Design Engineer"
+                        trigger="mount"
+                        hold={520}
+                        duration={1300}
+                        delay={700}
+                    />{" who "}
 
                     <span className="inline-flex items-center gap-2">
                         <span className="font-semibold">

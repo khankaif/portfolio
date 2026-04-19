@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { ALL_SLUGS_QUERY, PROJECT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import ScrambleText from "@/components/ScrambleText";
 
 interface StatItem {
     _key: string;
@@ -124,32 +125,32 @@ export default async function ProjectPage({
                 <ScrollReveal>
                 <header className="flex flex-col gap-6">
                     <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60">
                             {lens.eyebrow}
                         </span>
                         {lens.tags.map((tag) => (
                             <span
                                 key={tag}
-                                className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground border border-border/50 rounded-full px-2 py-1"
+                                className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60 border border-border/40 rounded-sm px-2 py-0.5"
                             >
                                 {tag}
                             </span>
                         ))}
                     </div>
 
-                    <h1 className="text-[clamp(2.2rem,6vw,4rem)] font-semibold tracking-[-0.05em] leading-[0.98] text-foreground">
-                        {project.title}
+                    <h1 className="text-[clamp(1.8rem,4.5vw,2.8rem)] font-medium tracking-[-0.03em] leading-[1.05] text-foreground">
+                        <ScrambleText text={project.title} trigger="mount" hold={400} duration={1000} delay={250} />
                     </h1>
 
-                    <p className="text-[16px] leading-[1.85] text-muted-foreground max-w-[65ch]">
+                    <p className="text-[14.5px] leading-[1.85] text-muted-foreground max-w-[65ch]">
                         {project.description}
                     </p>
 
-                    <p className="text-[14px] leading-[1.85] text-muted-foreground border-l-2 border-border pl-4">
+                    <p className="text-[13.5px] leading-[1.85] text-muted-foreground border-l-2 border-border/60 pl-4">
                         {lens.thesis}
                     </p>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-px border border-border/60 rounded-xl overflow-hidden bg-border/60">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-px border border-border/40 rounded-sm overflow-hidden bg-border/40">
                         <MetaItem label="Year" value={year} />
                         <MetaItem label="Timeline" value={project.timeline || "Long-form engagement"} />
                         <MetaItem label="Role" value={project.role?.join(" / ") || "Product ownership"} />
@@ -164,7 +165,7 @@ export default async function ProjectPage({
 
                 {heroUrl && (
                     <ScrollReveal delay={0.05}>
-                        <figure className="rounded-2xl overflow-hidden border border-border/60 bg-muted">
+                        <figure className="rounded-md overflow-hidden border border-border/40 bg-muted">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={heroUrl} alt={project.title} className="w-full h-auto block object-cover" />
                         </figure>
@@ -198,10 +199,10 @@ export default async function ProjectPage({
                                         key={`${move.track}-${index}`}
                                         className="py-4 border-b border-border/40 first:pt-0 last:pb-0 last:border-0 grid grid-cols-[44px_88px_1fr] gap-4"
                                     >
-                                        <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70 pt-1">
+                                        <span className="font-mono text-[10px] text-muted-foreground/40 pt-1">
                                             {String(index + 1).padStart(2, "0")}
                                         </span>
-                                        <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground pt-1">
+                                        <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/70 pt-1">
                                             {move.track}
                                         </span>
                                         <p className="text-[14px] leading-[1.8] text-muted-foreground">
@@ -233,7 +234,7 @@ export default async function ProjectPage({
                                     return (
                                         <figure
                                             key={item._key}
-                                            className="rounded-xl overflow-hidden border border-border/60 bg-card"
+                                            className="rounded-md overflow-hidden border border-border/40 bg-card"
                                         >
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img src={imageUrl} alt={caption} className="w-full h-auto block object-cover" />
@@ -256,17 +257,17 @@ export default async function ProjectPage({
                     >
                         <div className="flex flex-col gap-5">
                             {stats.length > 0 && (
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-border/60 rounded-xl overflow-hidden bg-border/60">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-border/40 rounded-sm overflow-hidden bg-border/40">
                                     {stats.map((stat, index) => (
                                         <div
                                             key={stat._key}
-                                            className="bg-background px-5 py-5 animate-in fade-in zoom-in-95 duration-500"
+                                            className="bg-background px-5 py-4 animate-in fade-in zoom-in-95 duration-500"
                                             style={{ animationDelay: `${index * 100}ms`, animationFillMode: "both" }}
                                         >
-                                            <p className="text-[28px] font-semibold leading-none tracking-[-0.04em] text-foreground">
+                                            <p className="text-[22px] font-medium leading-none tracking-[-0.03em] text-foreground">
                                                 {stat.value}
                                             </p>
-                                            <p className="mt-2 text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60">
                                                 {stat.label}
                                             </p>
                                         </div>
@@ -292,7 +293,7 @@ export default async function ProjectPage({
                                 {technologies.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="px-3 py-1.5 rounded-full text-[12px] font-medium border border-border/60 bg-muted/30 text-foreground hover:bg-foreground hover:text-background transition-colors duration-200 cursor-default"
+                                        className="px-2.5 py-1 rounded-sm font-mono text-[11px] tracking-wide border border-border/40 bg-muted/20 text-muted-foreground hover:bg-foreground hover:text-background transition-colors duration-200 cursor-default"
                                     >
                                         {tech}
                                     </span>
@@ -369,17 +370,17 @@ function StorySection({
     return (
         <section className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                <span className="mono-label font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60">
                     {label}
                 </span>
-                <h2 className="text-[clamp(1.4rem,4vw,2rem)] font-semibold tracking-[-0.03em] leading-tight text-foreground">
-                    {title}
+                <h2 className="text-[1.1rem] font-medium tracking-[-0.02em] leading-snug text-foreground">
+                    <ScrambleText text={title} trigger="inView" hold={380} duration={850} />
                 </h2>
                 <p className="text-[13px] text-muted-foreground leading-[1.8]">
                     {intro}
                 </p>
             </div>
-            <div className="w-full h-px bg-border/70" />
+            <div className="w-full h-px bg-border/50" />
             <div>{children}</div>
         </section>
     );
@@ -387,11 +388,11 @@ function StorySection({
 
 function MetaItem({ label, value }: { label: string; value: string }) {
     return (
-        <div className="bg-background px-4 py-4">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+        <div className="bg-background px-4 py-3.5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60">
                 {label}
             </p>
-            <p className="mt-1.5 text-[13px] text-foreground leading-[1.6]">
+            <p className="mt-1.5 text-[13px] text-foreground leading-[1.5]">
                 {value}
             </p>
         </div>

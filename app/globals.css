@@ -84,7 +84,7 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #000000;
   /* ~ #0a0a0a */
   --foreground: oklch(0.99 0 0);
   --card: oklch(0.205 0 0);
@@ -130,21 +130,27 @@
 }
 
 @keyframes glitch {
-  0%, 85%, 100% {
+
+  0%,
+  85%,
+  100% {
     clip-path: none;
     transform: translate(0);
     opacity: 1;
   }
+
   86% {
     clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
     transform: translate(-2px, 0);
     opacity: 0.9;
   }
+
   88% {
     clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
     transform: translate(2px, 0);
     opacity: 0.9;
   }
+
   90% {
     clip-path: none;
     transform: translate(0);
@@ -155,4 +161,50 @@
 .glitch-animation {
   animation: glitch 6s ease-in-out infinite;
   display: inline;
+}
+
+/* ── Portfolio accent color (matches Hero gradient palette) ────────────── */
+:root {
+  --portfolio-accent: #FF9F21;
+}
+
+.dark {
+  --portfolio-accent: #00E1FF;
+}
+
+/* ── Blinking cursor on mono section labels ────────────────────────────── */
+@keyframes blink-cursor {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.mono-label::after {
+  content: '_';
+  animation: blink-cursor 1.2s step-end infinite;
+  color: var(--portfolio-accent);
+  margin-left: 1px;
+}
+
+/* ── Accent left-border flash on hoverable rows ────────────────────────── */
+.accent-left-hover {
+  border-left: 2px solid transparent;
+  transition: border-left-color 0.2s ease, background 0.3s ease;
+}
+
+.accent-left-hover:hover {
+  border-left-color: var(--portfolio-accent);
+}
+
+/* ── Terminal input focus — border lifts to accent, faint outer ring ───── */
+.terminal-field:focus-within {
+  border-color: color-mix(in srgb, var(--portfolio-accent) 55%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--portfolio-accent) 8%, transparent);
 }

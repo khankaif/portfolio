@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { ALL_PROJECTS_QUERY } from "@/sanity/lib/queries";
+import ScrambleText from "@/components/ScrambleText";
 
 interface SanityProject {
     _id: string;
@@ -29,13 +30,22 @@ export default async function ProjectsPage() {
                     className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700"
                     style={{ animationFillMode: "both" }}
                 >
-                    <h1 className="text-[clamp(2rem,5vw,3.2rem)] font-semibold tracking-[-0.04em] leading-[1.02] text-foreground">
-                        Case studies that show how I think under real product pressure.
+                    <h3 className="mono-label font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
+                        Selected Work
+                    </h3>
+                    <h1 className="text-[clamp(1.6rem,4vw,2.4rem)] font-medium tracking-[-0.03em] leading-[1.1] text-foreground">
+                        Case studies that show how I think under{" "}
+                        <ScrambleText
+                            text="real product pressure."
+                            trigger="inView"
+                            hold={450}
+                            duration={1100}
+                        />
                     </h1>
-                    <p className="text-[14.5px] leading-[1.8] text-muted-foreground max-w-[65ch]">
+                    <p className="text-[14px] leading-[1.8] text-muted-foreground max-w-[65ch]">
                         Each project is written as a business story: what was broken, what I owned,
-                        what shipped, and what changed. This is less about pretty screens and more
-                        about decision quality, execution range, and outcomes.
+                        what shipped, and what changed. Less about pretty screens, more about
+                        decision quality and outcomes.
                     </p>
                 </div>
 
@@ -67,27 +77,27 @@ function ProjectRow({ project }: { project: SanityProject }) {
     return (
         <Link
             href={`/projects/${project.slug.current}`}
-            className="group grid grid-cols-1 gap-2 border-b border-border/40 py-5 sm:grid-cols-[80px_1fr_auto] sm:items-start sm:gap-5 hover:border-foreground/30 hover:bg-muted/20 transition-all duration-300 rounded-sm px-2 -mx-2"
+            className="accent-left-hover group grid grid-cols-1 gap-2 border-b border-border/40 py-5 sm:grid-cols-[72px_1fr_auto] sm:items-start sm:gap-5 hover:border-foreground/20 hover:bg-muted/15 transition-all duration-300 rounded-sm px-2 -mx-2"
         >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70">
+            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60 pt-0.5">
                 {year}
             </span>
 
             <div className="min-w-0">
-                <p className="text-[15px] font-medium text-foreground leading-snug">
+                <p className="text-[14.5px] font-medium text-foreground leading-snug">
                     {project.title}
                 </p>
-                <p className="mt-1 text-[13.5px] text-muted-foreground leading-[1.6] max-w-[62ch]">
+                <p className="mt-1 text-[13px] text-muted-foreground leading-[1.65] max-w-[62ch]">
                     {project.description}
                 </p>
-                <span className="inline-flex mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/80 border border-border/50 rounded-full px-2 py-1">
+                <span className="inline-flex mt-2.5 text-[10px] font-mono uppercase tracking-[0.1em] text-muted-foreground/70 border border-border/40 rounded-sm px-2 py-0.5">
                     {label}
                 </span>
             </div>
 
-            <span className="inline-flex items-center gap-1 text-[12px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                Read case study
-                <ArrowUpRight size={14} strokeWidth={1.8} />
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono text-muted-foreground/60 group-hover:text-foreground transition-colors pt-0.5">
+                Read
+                <ArrowUpRight size={12} strokeWidth={1.8} />
             </span>
         </Link>
     );

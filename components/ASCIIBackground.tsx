@@ -6,7 +6,21 @@ import { useTheme } from "@/components/ThemeProvider";
 const CHAR_SET =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$#!%&()*+,-./:;<=>?@[\\]^_`{|}~";
 
-const ASCIIBackground = ({ speed = 100 }) => {
+interface ASCIIBackgroundProps {
+    speed?: number;
+    opacity?: number;
+    zIndex?: number;
+    masked?: boolean;
+    blendMode?: React.CSSProperties["mixBlendMode"];
+}
+
+const ASCIIBackground = ({
+    speed = 100,
+    opacity = 0.5,
+    zIndex = 1,
+    masked = true,
+    blendMode = "overlay",
+}: ASCIIBackgroundProps) => {
     const { theme } = useTheme();
     const isDark = theme === "dark";
 
@@ -77,7 +91,7 @@ const ASCIIBackground = ({ speed = 100 }) => {
     return (
         <div
             ref={containerRef}
-            className="matrix-background"
+            className={masked ? "matrix-background" : undefined}
             style={{
                 position: "fixed",
                 top: 0,
@@ -91,9 +105,9 @@ const ASCIIBackground = ({ speed = 100 }) => {
                 pointerEvents: "none",
                 fontSize: "12px",
                 lineHeight: "1.2",
-                opacity: 0.5,
-                zIndex: 1,
-                mixBlendMode: "overlay",
+                opacity,
+                zIndex,
+                mixBlendMode: blendMode,
                 transition: "color 0.3s ease",
             }}
             aria-hidden="true"
