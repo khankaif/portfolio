@@ -2,6 +2,7 @@ export const meta = {
   title: "Jewelry QC",
   description: "Replaced paper inspection sheets with an app that works on factory floors without signal. Client reports went from a week of pivot tables to one click.",
   date: "2026-08-01",
+  order: 3,
   role: "Product Engineer — solo",
   team: "Just me, with the ops team",
   timeline: "2026",
@@ -42,6 +43,8 @@ I cut the scope into four phases and shipped them in order: the inspection core 
 ### What's the worst thing this app could do?
 
 Lose an inspection. It's physical work that cannot be redone. So every action — claim, photo, completion, submit — goes into an outbox on the device and replays in order once back online. A failure only pauses that one SKU, never the whole day. I kept the ordering logic as pure functions so the part that can lose data is the part covered most heavily by tests.
+
+<OutboxDemo />
 
 ### How do you tally defects with one hand?
 

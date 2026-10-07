@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Home, FolderKanban, User, Send, Moon, Sun } from "lucide-react";
+import { motion } from "framer-motion";
 import { useTheme } from "@/components/ThemeProvider";
 
 const navLinks = [
@@ -57,11 +58,18 @@ export default function Navbar() {
                         aria-label={label}
                         aria-current={isActive ? "page" : undefined}
                         className={`
-                            relative flex items-center justify-center gap-2
+                            relative isolate flex items-center justify-center gap-2
                             px-3 sm:px-3.5 h-10 rounded-full transition-all duration-300
-                            ${isActive ? "bg-foreground text-background" : "hover:bg-muted text-muted-foreground hover:text-foreground"}
+                            ${isActive ? "text-background" : "hover:bg-muted text-muted-foreground hover:text-foreground"}
                         `}
                     >
+                        {isActive && (
+                            <motion.span
+                                layoutId="nav-pill"
+                                className="absolute inset-0 -z-10 rounded-full bg-foreground"
+                                transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                            />
+                        )}
                         <Icon size={16} strokeWidth={isActive ? 2.5 : 2} />
                         <span className={`hidden sm:inline text-small ${isActive ? "font-semibold" : "font-medium"}`}>{label}</span>
                     </Link>

@@ -6,6 +6,8 @@ import { getProject, getProjects, getSlugs } from "@/lib/projects";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import PageShell from "@/components/layout/PageShell";
 import Section from "@/components/layout/Section";
+import CountUp from "@/components/motion/CountUp";
+import Toc from "@/components/motion/Toc";
 
 export const dynamicParams = false;
 
@@ -37,6 +39,7 @@ export default async function ProjectPage({
 
     return (
         <PageShell width="content">
+            <Toc />
             <article className="w-full flex flex-col gap-12">
                 <ScrollReveal>
                 <header className="flex flex-col gap-6 max-w-prose">
@@ -81,7 +84,7 @@ export default async function ProjectPage({
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-border/40 rounded-sm overflow-hidden bg-border/40">
                         {stats.map((stat) => (
                             <div key={stat.label} className="bg-background px-5 py-4">
-                                <p className="text-stat font-medium text-foreground">{stat.value}</p>
+                                <p className="text-stat font-medium text-foreground"><CountUp value={stat.value} /></p>
                                 <p className="mt-2 font-mono text-micro uppercase text-muted-foreground">{stat.label}</p>
                             </div>
                         ))}

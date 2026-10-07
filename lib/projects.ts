@@ -5,6 +5,8 @@ export interface ProjectMeta {
     title: string;
     description: string;
     date: string;
+    /** Position on the work and about pages; lower comes first. */
+    order: number;
     role: string;
     team: string;
     timeline: string;
@@ -26,8 +28,8 @@ export async function getProject(slug: string) {
     return { slug, meta: mod.meta as ProjectMeta, Content: mod.default as React.ComponentType };
 }
 
-// Newest first.
+// By `order`, so the strongest work leads regardless of date.
 export async function getProjects() {
     const all = await Promise.all(getSlugs().map(getProject));
-    return all.filter((p) => p !== null).sort((a, b) => b.meta.date.localeCompare(a.meta.date));
+    return all.filter((p) => p !== null).sort((a, b) => a.meta.order - b.meta.order);
 }

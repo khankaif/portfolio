@@ -11,8 +11,8 @@ const FRAME_MS = 1000 / 12;
 export interface ScrambleTextProps {
     text: string;
     className?: string;
-    /** mount — once on load | hover — on mouse enter | inView — once on viewport entry */
-    trigger?: "mount" | "hover" | "inView";
+    /** mount — once on load | hover — on mouse enter | parentHover — when the nearest [data-scramble] ancestor is entered | inView — once on viewport entry */
+    trigger?: "mount" | "hover" | "parentHover" | "inView";
     /** How long to hold the fully-scrambled state before resolving (ms) */
     hold?: number;
     /** How long the left-to-right character resolve takes (ms) */
@@ -120,6 +120,19 @@ export default function ScrambleText({
         if (trigger !== "mount") return;
         play();
         return () => { cancelAnimationFrame(frameRef.current); clearTimeout(timerRef.current); };
+    }, [trigger, play]);
+
+    // parentHover — a whole row can trigger its title
+    useEffect(() => {
+        if (trigger !== "parentHover") return;
+        const root = ref.current?.closest("[data-scramble]");
+        if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        root.addEventListener("mouseenter", play);
+        return () => {
+            root.removeEventListener("mouseenter", play);
+            cancelAnimationFrame(frameRef.current);
+            clearTimeout(timerRef.current);
+        };
     }, [trigger, play]);
 
     // inView — fires once, then cleans up observer

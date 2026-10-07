@@ -2,6 +2,7 @@ export const meta = {
   title: "UnivDiam",
   description: "The ordering platform behind a jewelry manufacturer's custom work. I spent most of 2026 making it trustworthy: chat that doesn't lose messages, a security pass, and numbers the business can actually read.",
   date: "2025-06-01",
+  order: 1,
   role: "Product Engineer",
   team: "6 engineers",
   timeline: "Jun 2025 – present",
@@ -36,6 +37,8 @@ Later that month, a message someone had just sent would sometimes disappear from
 A sent message could reach the screen four ways: the copy we showed instantly, the socket echo, the response to the POST, and the next page fetch. Nothing tied those four together, so the UI was guessing which ones were the same message. Sometimes it guessed wrong.
 
 The fix was boring once I saw it. The client now gives each message an ID before sending it, and every copy is matched on that ID. When the server's version arrives, it replaces the temporary one. I also pulled the chat logic, which was duplicated across the two portals, into a single `useOrderChat` hook, so the fix only had to happen once.
+
+<ChatSyncDemo />
 
 ## Unread counts
 

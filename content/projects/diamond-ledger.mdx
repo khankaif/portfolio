@@ -2,6 +2,7 @@ export const meta = {
   title: "Diamond Ledger",
   description: "A stock and accounts system for a diamond trading business, built solo. The ledger is append-only, and the database itself refuses to oversell stock.",
   date: "2026-08-27",
+  order: 2,
   role: "Engineer — solo",
   team: "Just me, with the business owner",
   timeline: "Aug – Sep 2026",
@@ -36,6 +37,8 @@ The ledger is append-only. A database trigger rejects every update or delete, so
 ### What if two people sell the same stone at once?
 
 Without a lock, two transactions can both read the same balance and both sell. Every stock movement goes through a trigger that locks the lot's row (`SELECT … FOR UPDATE`) before checking the balance. Any screen or API that writes stock is protected, including ones that don't exist yet.
+
+<OversellDemo />
 
 ### How do you keep fast data entry from turning into mistakes?
 

@@ -5,6 +5,8 @@ import PageHeader from "@/components/layout/PageHeader";
 import Section from "@/components/layout/Section";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { getProjects } from "@/lib/projects";
+import Timeline from "@/components/Timeline";
+import WordReveal from "@/components/motion/WordReveal";
 
 export const metadata = { title: "About" };
 
@@ -15,19 +17,14 @@ const EXPERIENCE = [
         when: "2025 — now",
         role: "Product Engineer",
         org: "Carpe Diam · Mumbai",
-        text: "Full-stack across a jewelry manufacturer's platforms: the UnivDiam order and CAD-approval system for B2B retailers, an offline-first QC inspection app, and the Shopify storefront.",
+        text: "Main engineer on UnivDiam, the B2B order and CAD-approval platform, plus an offline-first QC inspection app, an internal CAD workflow tool and a commerce rebuild. I lead two engineering interns.",
+        current: true,
     },
     {
         when: "2021 — 2025",
         role: "UX/UI Designer, intern → full-time",
         org: "VCBay · Remote",
         text: "Led product design for Zefyron, a SaaS suite for startups, investors and corporates. Built its design system, plus Webflow sites for 5+ brands and investor decks.",
-    },
-    {
-        when: "2024 — now",
-        role: "Freelance",
-        org: "Design & Shopify",
-        text: "Brand identities, UI and complete Shopify stores for small businesses.",
     },
     {
         when: "2021",
@@ -83,30 +80,16 @@ export default async function About() {
                         work is the unglamorous kind that matters — order pipelines, CAD approvals, factory
                         inspections that have to work without signal.
                     </p>
-                    <p className="text-foreground">
-                        What I&apos;m good at: turning messy, real-world operations into software people use every
-                        day, and making it feel simple to them.
-                    </p>
+                    <WordReveal
+                        className="text-heading text-foreground"
+                        text="What I'm good at: turning messy, real-world operations into software people use every day, and making it feel simple to them."
+                    />
                 </div>
             </section>
 
             <ScrollReveal>
                 <Section label="Experience">
-                    <ol className="flex flex-col">
-                        {EXPERIENCE.map((e) => (
-                            <li
-                                key={e.role + e.when}
-                                className="grid sm:grid-cols-[120px_1fr] gap-1 sm:gap-6 py-4 border-b border-border/40 last:border-0"
-                            >
-                                <span className="font-mono text-micro uppercase text-muted-foreground pt-1">{e.when}</span>
-                                <div>
-                                    <p className="text-body font-medium text-foreground">{e.role}</p>
-                                    <p className="text-small text-muted-foreground">{e.org}</p>
-                                    {e.text && <p className="mt-2 text-small text-muted-foreground max-w-prose">{e.text}</p>}
-                                </div>
-                            </li>
-                        ))}
-                    </ol>
+                    <Timeline entries={EXPERIENCE} />
                 </Section>
             </ScrollReveal>
 
