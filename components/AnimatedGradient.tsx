@@ -152,7 +152,7 @@ export default function AnimatedGradient({
                 seed
             );
         } catch (e) {
-            console.error("Failed to initialize AnimatedGradient shader:", e);
+            console.warn("AnimatedGradient: WebGL2 unavailable, skipping background.", e);
         }
         return () => {
             mountRef.current?.dispose();

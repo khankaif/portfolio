@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import AnimatedGradient from "@/components/AnimatedGradient";
 import ASCIIBackground from "@/components/ASCIIBackground";
 import { useTheme } from "@/components/ThemeProvider";
@@ -10,7 +12,7 @@ const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const container = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.14, delayChildren: 0.3 } },
+    visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
 };
 
 const item = {
@@ -23,58 +25,60 @@ export default function Hero() {
     const isDark = theme === "dark";
 
     return (
-        <section className="fixed inset-0 w-full flex items-center justify-center overflow-hidden px-6 text-center bg-background transition-colors duration-300">
-            {/* Background Layer */}
-            <div className="pointer-events-none absolute inset-0 z-0">
+        <section className="relative isolate w-full min-h-[92svh] flex items-center overflow-hidden px-6 pt-24 pb-16">
+            {/* Background — faded toward the bottom so it hands off to the page */}
+            <div className="pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]">
                 <AnimatedGradient
                     color1={isDark ? "#00E1FF" : "#FF9F21"}
                     color2={isDark ? "#217AFF" : "#FF0303"}
                     color3={isDark ? "#000000" : "#fff"}
                 />
-                <ASCIIBackground speed={50} />
+                <ASCIIBackground speed={50} opacity={isDark ? 0.35 : 0.12} />
             </div>
 
-            {/* Content Layer */}
             <motion.div
-                className="relative max-w-3xl"
+                className="relative w-full max-w-content mx-auto flex flex-col gap-6"
                 variants={container}
                 initial="hidden"
                 animate="visible"
             >
-                {/* Main Text Block */}
-                <motion.p
+                <motion.div
                     variants={item}
-                    className="font-medium leading-relaxed tracking-tight sm:text-[20px] text-foreground"
+                    className="flex items-center gap-2 font-mono text-micro uppercase text-muted-foreground"
                 >
-                    I Build Products From Pixel to Production
-                    <span className="mx-2 inline-block" aria-hidden="true">⚡</span>
-                    <ScrambleText
-                        text="Design Engineer"
-                        trigger="mount"
-                        hold={520}
-                        duration={1300}
-                        delay={700}
-                    />{" who "}
+                    <span style={{ color: "var(--portfolio-accent)" }}>Kaif Khan</span>
+                    <span>/ Product Engineer · Mumbai</span>
+                </motion.div>
 
-                    <span className="inline-flex items-center gap-2">
-                        <span className="font-semibold">
-                            thinks in UX, ships in React
-                        </span>
-                        <span className="inline-block -rotate-12 transition-transform hover:rotate-0" aria-hidden="true">
-                            🚀
-                        </span>
-                    </span>
+                <motion.h1
+                    variants={item}
+                    className="text-display font-medium text-foreground max-w-[20ch]"
+                >
+                    I build the software that runs{" "}
+                    <ScrambleText text="real businesses." trigger="mount" hold={500} duration={1200} delay={600} />
+                </motion.h1>
 
-                    <span className="block mt-1">no handoffs, no translation loss, just shipped products.</span>
+                <motion.p variants={item} className="text-body text-muted-foreground max-w-prose">
+                    Four years designing SaaS products, now shipping them end to end — from the Figma file
+                    to the database to the server it runs on. Lately: an order and CAD-approval platform for
+                    a jewelry manufacturer, and an offline-first inspection app used on factory floors.
                 </motion.p>
 
-                {/* Subtext */}
-                <motion.p
-                    variants={item}
-                    className="mt-4 text-[15px] leading-relaxed text-muted-foreground"
-                >
-                    5 years building real products. Figma is where I start. Production is where I finish.
-                </motion.p>
+                <motion.div variants={item} className="flex flex-wrap items-center gap-3 mt-2">
+                    <Link
+                        href="/projects"
+                        className="group inline-flex items-center gap-2 h-11 px-5 rounded-full bg-foreground text-background text-small font-medium hover:opacity-90 transition-opacity"
+                    >
+                        See the work
+                        <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                    <Link
+                        href="/contact"
+                        className="inline-flex items-center h-11 px-5 rounded-full border border-border bg-background/60 backdrop-blur-sm text-small font-medium text-foreground hover:bg-muted transition-colors"
+                    >
+                        Get in touch
+                    </Link>
+                </motion.div>
             </motion.div>
         </section>
     );

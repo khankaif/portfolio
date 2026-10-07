@@ -1,0 +1,52 @@
+export const meta = {
+  title: "CAD Portal",
+  description: "An internal tool that runs Carpe Diam's CAD team, from brief to month-end payout. I designed the core and lead the two interns building it with me.",
+  date: "2026-04-06",
+  role: "Product Engineer — lead",
+  team: "Me, leading 2 engineering interns",
+  timeline: "Apr 2026 – present",
+  stats: [
+    { value: "3", label: "roles: manager, QC, designer" },
+    { value: "1", label: "writer of task status: the stage pipeline" },
+    { value: "2", label: "interns led" },
+  ],
+  stack: ["Next.js", "React", "TypeScript", "PostgreSQL", "Drizzle", "S3 multipart uploads", "Docker", "GitHub Actions"],
+}
+
+## The pain
+
+Every custom piece starts as a CAD file. A manager gets the brief, hands it to a designer, QC checks the file, and it goes back for revisions until it's right. At month end, designers are paid by the points they've earned.
+
+All of that lived in chat threads, shared-drive links and a spreadsheet. Nobody could see who was working on what, revisions overwrote each other, and payout day meant rebuilding a month of history by hand.
+
+## Why it mattered
+
+CAD is the first step of every made-to-order piece, so a slow or lost CAD delays the whole order. And when designers are paid by the piece, a payout dispute is a trust problem, not just a bookkeeping one.
+
+## The bet
+
+Model the work as a pipeline, not a to-do list. Every task moves through explicit stages, every revision is a new version under the same task, and payouts are calculated from the stage history, never typed in.
+
+## Decisions
+
+### Who is allowed to change a task's status?
+
+Nobody, directly. Status is derived from stage transitions, and the stage pipeline is the only code that writes it. Before switching over, I checked the derived status against every real task already in the database, so the migration couldn't silently change anyone's history.
+
+### How do you pay fairly for revisions?
+
+Points are credited once, on first QC approval. Revision cycles don't change a task's value. A rate card, editable only by managers, sets prices and points, and money-related screens have their own permission scope.
+
+### How does each person know what to do next?
+
+One work queue, filtered by role. Designers see their tasks, QC sees what's waiting for review, and managers see everything. Per-stage clocks show where time actually goes.
+
+### How do you lead interns without becoming the bottleneck?
+
+I own the data model and the stage rules, and give the interns well-bounded pieces with clear edges. One intern built direct-to-S3 multipart uploads with retries, so large CAD files never pass through our server. I review every change before it merges.
+
+## What I'd do differently
+
+I'd have written the stage model first instead of starting from a status field. Moving to stage transitions later meant backfilling every existing task, work that a day of upfront modelling would have saved.
+
+{/* TODO(kaif): add tasks per month, designers using it, or time saved on payouts once you have them. */}

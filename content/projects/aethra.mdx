@@ -1,0 +1,40 @@
+export const meta = {
+  title: "Aethra",
+  description: "A jewelry commerce platform deployed once per client, where every price is computed on the server from live metal and diamond rates. In progress.",
+  date: "2026-09-25",
+  role: "Product Engineer — solo rebuild",
+  team: "Me (an intern helped with early research)",
+  timeline: "Aug 2026 – present",
+  stats: [
+    { value: "1 file", label: "configures a whole client deployment" },
+    { value: "5", label: "modules built so far" },
+    { value: "0", label: "prices typed by hand" },
+  ],
+  stack: ["Medusa v2", "TypeScript", "Node.js", "PostgreSQL", "Redis", "Next.js", "Docker", "Jest"],
+}
+
+## The pain
+
+A diamond jewelry price isn't a number someone types in. It's metal weight times today's rate, plus wastage and making charges, plus every stone priced by shape, size, colour and clarity, each with its own markup. Gold moves every day. A store with hand-entered prices is wrong by tomorrow.
+
+## The bet
+
+Price is a calculation, not a field. Each product stores its recipe (metal lines and diamond lines), and the price is computed on the server from rate masters. When a rate changes, products are repriced. A product whose inputs aren't complete gets no price and stays unpublished, so a wrong price can't reach the storefront.
+
+## Decisions
+
+### Why throw away the first version?
+
+The first prototype, which an intern researched under my direction, followed a pricing scope the business had moved past. Instead of patching it, I archived it, wrote down the pricing rules as one rulebook agreed with the business, and rebuilt one module at a time. Each module is model, API, admin UI and tests, finished before the next one starts.
+
+### Multi-tenant or one deployment per client?
+
+One per client. Jewelry businesses want their data on their own server. Everything client-specific lives in one config file, and an idempotent setup script turns it into a working store: regions, currencies, sales channels and admin. Running it again updates instead of duplicating.
+
+### How do you white-label someone else's admin?
+
+A build-time Vite plugin replaces the framework's name and logo with the client's, and fails the build if any original branding text remains. A framework upgrade can't quietly bring it back.
+
+## Status
+
+Built: metal master, diamond size and rate masters, categories, and the pricing widget that writes the storefront price. Next: multi-currency pricing and price snapshots on quotes and orders.

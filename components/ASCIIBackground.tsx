@@ -16,7 +16,7 @@ interface ASCIIBackgroundProps {
 
 const ASCIIBackground = ({
     speed = 100,
-    opacity = 0.5,
+    opacity = 1,
     zIndex = 1,
     masked = true,
     blendMode = "overlay",

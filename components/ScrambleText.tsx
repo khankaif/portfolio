@@ -31,7 +31,7 @@ export default function ScrambleText({
 }: ScrambleTextProps) {
     const ref        = useRef<HTMLSpanElement>(null);
     const frameRef   = useRef<number>(0);
-    const timerRef   = useRef<ReturnType<typeof setTimeout>>();
+    const timerRef   = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
     const lastFrame  = useRef<number>(0);
     const playedRef  = useRef(false);
 
@@ -39,6 +39,14 @@ export default function ScrambleText({
         cancelAnimationFrame(frameRef.current);
         clearTimeout(timerRef.current);
         if (!ref.current) return;
+
+        // Random glyphs have different widths than the final text, so lock the
+        // box to the real text's size for the whole animation — otherwise the
+        // surrounding line reflows on every frame.
+        const el = ref.current;
+        const rect = el.getBoundingClientRect();
+        el.style.display = "inline-block";
+        el.style.minWidth = `${Math.ceil(rect.width)}px`;
 
         // Show fully-scrambled immediately (no blank frame on start)
         const toScrambled = () => {
@@ -91,6 +99,8 @@ export default function ScrambleText({
                 frameRef.current = requestAnimationFrame(animate);
             } else {
                 ref.current.textContent = text;
+                ref.current.style.display = "";
+                ref.current.style.minWidth = "";
             }
         };
 

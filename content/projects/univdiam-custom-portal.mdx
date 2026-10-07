@@ -1,0 +1,70 @@
+export const meta = {
+  title: "UnivDiam",
+  description: "The ordering platform behind a jewelry manufacturer's custom work. I spent most of 2026 making it trustworthy: chat that doesn't lose messages, a security pass, and numbers the business can actually read.",
+  date: "2025-06-01",
+  role: "Product Engineer",
+  team: "6 engineers",
+  timeline: "Jun 2025 – present",
+  url: "https://app.univdiam.com/",
+  hero: "/projects/univdiam-hero.jpg",
+  stats: [
+    { value: "247", label: "orders from 20 retailers" },
+    { value: "14 → 63", label: "orders per month, Feb–Jul 2026" },
+    { value: "21% → 60%", label: "orders placed self-serve" },
+  ],
+  stack: ["React", "TypeScript", "Turborepo", "Express", "MySQL", "Redis", "BullMQ", "Socket.IO", "S3", "Sentry", "pm2", "nginx"],
+}
+
+UnivDiam makes custom jewelry for retailers. A store sends a request, UnivDiam's team draws it in CAD, the retailer approves or asks for changes, and the piece goes to the factory. Before this platform, all of that happened over WhatsApp, phone calls and email, and the only way to find out where an order stood was to ask someone.
+
+The platform puts each order in one place: the request, every CAD version, the quote and the conversation about it. It's a Turborepo monorepo with three React apps (retailers, staff, analytics) and one Express API on MySQL, with Socket.IO for anything live.
+
+It went live in February 2026. By July it was handling 63 orders a month, up from 14, and 60% of them were placed by retailers themselves instead of typed in by staff.
+
+{/* TODO(kaif): screenshot of an order page with the chat open */}
+
+## The audit
+
+In July, a few months after launch, I paused feature work and read the codebase end to end. Retailers were relying on it every day by then, and nobody had looked at it as a whole.
+
+I wrote up what I found as a list of numbered issues. Two were serious. Any logged-in user could update an order that wasn't theirs if they knew its ID (SEC-6). And chat messages were rendered as raw HTML without sanitizing (SEC-5). I fixed both that week, scoping order access to the stakeholders on the order and running every raw-HTML render through a sanitizer. I also moved sessions to HTTP-only refresh cookies with silent refresh, and made the socket server reject revoked tokens.
+
+## Chat kept losing messages
+
+Later that month, a message someone had just sent would sometimes disappear from chat, or show up twice.
+
+A sent message could reach the screen four ways: the copy we showed instantly, the socket echo, the response to the POST, and the next page fetch. Nothing tied those four together, so the UI was guessing which ones were the same message. Sometimes it guessed wrong.
+
+The fix was boring once I saw it. The client now gives each message an ID before sending it, and every copy is matched on that ID. When the server's version arrives, it replaces the temporary one. I also pulled the chat logic, which was duplicated across the two portals, into a single `useOrderChat` hook, so the fix only had to happen once.
+
+## Unread counts
+
+Unread badges had the same kind of problem. They were counted in the browser, so two tabs or a phone and a laptop would disagree.
+
+I moved them to the server as a "watermark" per user per order: the ID of the newest message that person has seen. Roughly:
+
+```sql
+INSERT INTO chat_read_state (order_id, user_id, last_read_id)
+SELECT ?, ?, MAX(id) FROM messages WHERE order_id = ? AND id <= ?
+ON DUPLICATE KEY UPDATE
+  last_read_id = GREATEST(last_read_id, VALUES(last_read_id));
+```
+
+`GREATEST` means a watermark can only go forward, so a retried request or a stale tab can't mark messages unread again. The `id <= ?` cap matters too. Without it, marking a chat as read could also sweep up a message someone sent a moment earlier that hadn't reached your screen yet.
+
+Existing users needed their read state filled in. My first backfill script would have overwritten real watermarks if it ran twice, so I made it safe to re-run before it touched production.
+
+## Turning the database into answers
+
+The business kept asking things like "how long do orders actually take?" and nobody could answer. So I wrote a script that runs read-only queries against production and outputs a single HTML file anyone can open.
+
+The interesting part was the data, not the charts. `orders.updated_at` looked useful but was wrong: old migrations had rewritten it in bulk. I worked out stage timings from the activity log instead. That gave the first real answer: 29.9 days from order to delivery, at the median, with the slowest orders stuck waiting for retailer approval.
+
+## Smaller things I'm glad I did
+
+- **Blind share links.** Retailers wanted to send designs to their own customers without UnivDiam's name on them. Share links are served from a neutral domain, prices are optional, and media URLs are obfuscated.
+- **Kanban pagination.** The order board loaded every order at once. It now pages each column separately and filters tags on the server.
+
+## Looking back
+
+I'd build message IDs and server-side read state into chat from day one. Retrofitting consistency into a real-time feature people already use daily was the hardest work on this project, and almost all of it could have been avoided.

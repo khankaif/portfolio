@@ -1,63 +1,28 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { client } from "@/sanity/lib/client";
-import { ALL_PROJECTS_QUERY } from "@/sanity/lib/queries";
-import ScrambleText from "@/components/ScrambleText";
+import { getProjects } from "@/lib/projects";
+import PageShell from "@/components/layout/PageShell";
+import PageHeader from "@/components/layout/PageHeader";
 
-interface SanityProject {
-    _id: string;
-    title: string;
-    slug: { current: string };
-    date: string;
-    description: string;
-}
-
-export const revalidate = 60;
+type Project = Awaited<ReturnType<typeof getProjects>>[number];
 
 export default async function ProjectsPage() {
-    let projects: SanityProject[] = [];
-
-    try {
-        projects = await client.fetch<SanityProject[]>(ALL_PROJECTS_QUERY);
-    } catch (error) {
-        console.error("Failed to fetch projects from Sanity:", error);
-    }
+    const projects = await getProjects();
 
     return (
-        <div className="min-h-screen px-6 pt-20 pb-32 flex flex-col items-center">
-            <section className="w-full max-w-[760px] flex flex-col gap-8">
-                <div
-                    className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700"
-                    style={{ animationFillMode: "both" }}
-                >
-                    <h3 className="mono-label font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
-                        Selected Work
-                    </h3>
-                    <h1 className="text-[clamp(1.6rem,4vw,2.4rem)] font-medium tracking-[-0.03em] leading-[1.1] text-foreground">
-                        Case studies that show how I think under{" "}
-                        <ScrambleText
-                            text="real product pressure."
-                            trigger="inView"
-                            hold={450}
-                            duration={1100}
-                        />
-                    </h1>
-                    <p className="text-[14px] leading-[1.8] text-muted-foreground max-w-[65ch]">
-                        Each project is written as a business story: what was broken, what I owned,
-                        what shipped, and what changed. Less about pretty screens, more about
-                        decision quality and outcomes.
-                    </p>
-                </div>
-
-                <div
-                    className="w-full h-px bg-border animate-in fade-in duration-700"
-                    style={{ animationDelay: "200ms", animationFillMode: "both" }}
+        <PageShell width="content" className="gap-8">
+            <section className="w-full flex flex-col gap-8">
+                <PageHeader
+                    index="02"
+                    label="Work"
+                    title="From operational friction to shipped software."
+                    lede="Each one is written as a business story: what was broken, what I owned, what shipped, and what changed."
                 />
 
-                <div className="flex flex-col">
+                <div className="flex flex-col pt-2">
                     {projects.map((project, index) => (
                         <div
-                            key={project._id}
+                            key={project.slug}
                             className="animate-in fade-in slide-in-from-bottom-2 duration-700"
                             style={{ animationDelay: `${300 + index * 80}ms`, animationFillMode: "both" }}
                         >
@@ -66,53 +31,45 @@ export default async function ProjectsPage() {
                     ))}
                 </div>
             </section>
-        </div>
+        </PageShell>
     );
 }
 
-function ProjectRow({ project }: { project: SanityProject }) {
-    const year = project.date ? new Date(project.date).getFullYear().toString() : "Undated";
-    const label = inferProjectLabel(project);
+function ProjectRow({ project: { slug, meta } }: { project: Project }) {
+    const year = meta.date.slice(0, 4);
 
     return (
         <Link
-            href={`/projects/${project.slug.current}`}
+            href={`/projects/${slug}`}
             className="accent-left-hover group grid grid-cols-1 gap-2 border-b border-border/40 py-5 sm:grid-cols-[72px_1fr_auto] sm:items-start sm:gap-5 hover:border-foreground/20 hover:bg-muted/15 transition-all duration-300 rounded-sm px-2 -mx-2"
         >
-            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground/60 pt-0.5">
+            <span className="font-mono text-micro uppercase text-muted-foreground pt-0.5">
                 {year}
             </span>
 
             <div className="min-w-0">
-                <p className="text-[14.5px] font-medium text-foreground leading-snug">
-                    {project.title}
+                <p className="text-body font-medium text-foreground leading-snug">
+                    {meta.title}
                 </p>
-                <p className="mt-1 text-[13px] text-muted-foreground leading-[1.65] max-w-[62ch]">
-                    {project.description}
+                <p className="mt-1 text-small text-muted-foreground max-w-prose">
+                    {meta.description}
                 </p>
-                <span className="inline-flex mt-2.5 text-[10px] font-mono uppercase tracking-[0.1em] text-muted-foreground/70 border border-border/40 rounded-sm px-2 py-0.5">
-                    {label}
-                </span>
+                <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                    <span className="inline-flex text-micro font-mono uppercase text-muted-foreground border border-border/40 rounded-sm px-2 py-0.5">
+                        {meta.role}
+                    </span>
+                    {meta.stack && (
+                        <span className="text-micro font-mono text-muted-foreground">
+                            {meta.stack.slice(0, 4).join(" · ")}
+                        </span>
+                    )}
+                </div>
             </div>
 
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono text-muted-foreground/60 group-hover:text-foreground transition-colors pt-0.5">
+            <span className="inline-flex items-center gap-1 text-micro font-mono text-muted-foreground group-hover:text-foreground transition-colors pt-0.5">
                 Read
                 <ArrowUpRight size={12} strokeWidth={1.8} />
             </span>
         </Link>
     );
-}
-
-function inferProjectLabel(project: SanityProject) {
-    const text = `${project.title} ${project.description}`.toLowerCase();
-
-    if (/(workflow|portal|production|approval|order|cad|retailer)/.test(text)) {
-        return "Workflow System";
-    }
-
-    if (/(saas|investor|deal|event|pitch|fundraise|valuation)/.test(text)) {
-        return "Startup Platform";
-    }
-
-    return "Product Case Study";
 }

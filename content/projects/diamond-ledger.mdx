@@ -1,0 +1,50 @@
+export const meta = {
+  title: "Diamond Ledger",
+  description: "A stock and accounts system for a diamond trading business, built solo. The ledger is append-only, and the database itself refuses to oversell stock.",
+  date: "2026-08-27",
+  role: "Engineer — solo",
+  team: "Just me, with the business owner",
+  timeline: "Aug – Sep 2026",
+  stats: [
+    { value: "100+", label: "tests against a real Postgres DB" },
+    { value: "0", label: "edits allowed on posted entries" },
+    { value: "In use", label: "runs the business day to day" },
+  ],
+  stack: ["Next.js", "React", "TypeScript", "PostgreSQL", "Neon", "SQL migrations", "Node test runner"],
+}
+
+## The pain
+
+A diamond trader's book is mostly memos: stones go out to buyers on approval and come back, or turn into a sale. Stones come in the same way from other traders. On top of that are bills, payments and the question at the end of every month: did we make money?
+
+This business ran it all in one large spreadsheet. A wrong cell could change a balance with no trace of who changed it or why.
+
+## Why it mattered
+
+In trading, the ledger is the business. If stock or money can change silently, nobody can trust a statement, and every disagreement with a buyer becomes an argument about whose spreadsheet is right.
+
+## The bet
+
+Put the rules in the database, not just the UI. If the only way to change stock or money is to post an entry, and posted entries can never be edited, then every balance can be explained from its history.
+
+## Decisions
+
+### What happens when someone makes a mistake?
+
+The ledger is append-only. A database trigger rejects every update or delete, so a correction is posted as a reversing entry. Mistakes stay visible, and so do their fixes.
+
+### What if two people sell the same stone at once?
+
+Without a lock, two transactions can both read the same balance and both sell. Every stock movement goes through a trigger that locks the lot's row (`SELECT … FOR UPDATE`) before checking the balance. Any screen or API that writes stock is protected, including ones that don't exist yet.
+
+### How do you keep fast data entry from turning into mistakes?
+
+A command palette searches stock, parties, bills and requirements from anywhere. "Save and add another" remembers the last party used. The goal was to make the correct way the fastest way.
+
+### When do you delete features?
+
+Halfway through, I cut a whole section (a separate money register and jewelry orders) because it duplicated what bills already did. The app went from tangled navigation to five flat sections that match how the owner actually works.
+
+## What I'd do differently
+
+I'd start from the reversing-entry model on day one. Adding database-level safety after the screens existed meant re-checking every write path, a cost the trigger-first design would have avoided.

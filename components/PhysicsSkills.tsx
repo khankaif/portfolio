@@ -135,7 +135,7 @@ export default function PhysicsSkills({ items }: { items: SkillItem[] }) {
     return (
         <div
             ref={containerRef}
-            className="relative w-full h-[120px] cursor-grab active:cursor-grabbing select-none"
+            className="relative w-full h-[360px] cursor-grab active:cursor-grabbing select-none"
         >
             {pills.map((pill, i) => (
                 <div
@@ -163,7 +163,7 @@ export default function PhysicsSkills({ items }: { items: SkillItem[] }) {
                             />
                         ))
                     ) : (
-                        <span className="text-[12px] font-medium leading-none whitespace-nowrap">
+                        <span className="text-small font-medium leading-none whitespace-nowrap">
                             {pill.title}
                         </span>
                     )}

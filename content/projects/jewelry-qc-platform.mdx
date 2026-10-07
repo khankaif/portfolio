@@ -1,0 +1,77 @@
+export const meta = {
+  title: "Jewelry QC",
+  description: "Replaced paper inspection sheets with an app that works on factory floors without signal. Client reports went from a week of pivot tables to one click.",
+  date: "2026-08-01",
+  role: "Product Engineer — solo",
+  team: "Just me, with the ops team",
+  timeline: "2026",
+  stats: [
+    { value: "100%", label: "paperless inspections" },
+    { value: "0", label: "duplicate data entry" },
+    { value: "1 click", label: "client report, was a week" },
+  ],
+  stack: ["React", "Vite", "TypeScript", "Capacitor (Android)", "Express", "PostgreSQL", "Redis", "ExcelJS", "Zod", "Docker", "Nginx", "GitHub Actions"],
+}
+
+## The pain
+
+An inspector spends the day in a factory checking jewelry piece by piece: loose stones, bad polish, a cracked shank. They write every finding on a printed sheet. That evening, they type the same sheet into a spreadsheet — the same work, twice, with a new chance for errors.
+
+At month end, management spends days building pivot tables to produce the report each brand pays for. Until then, nobody — not the company, not the client — knows how a factory is actually doing.
+
+## Why it mattered
+
+Inspection *is* the product; the report is what the client buys. But every new client meant more re-typing and more report-building, so the back office grew in step with the inspection work. The company couldn't take on more brands without hiring more people to handle paper.
+
+## What was actually broken
+
+The obvious fix — "put the paper form in an app" — would have failed on the factory floor. The hard part was never the form. It was the environment:
+
+- **No signal.** Factory floors are often dead zones.
+- **One free hand.** The other is holding a ring and a loupe.
+- **Every client's sheet is different.** One brand calls it "Loose Stones", another has no SKU column at all.
+
+## The bet
+
+A phone app that works fully offline, is designed for one-handed tallying, and reads the spreadsheets clients already send instead of asking them to change. Then generate the monthly report from data that already exists.
+
+I cut the scope into four phases and shipped them in order: the inspection core online first, then offline sync, then spreadsheet imports, then reports. Each phase was usable and testable on its own, so the riskiest part — offline sync — was built on a core that already worked.
+
+## Decisions
+
+### What's the worst thing this app could do?
+
+Lose an inspection. It's physical work that cannot be redone. So every action — claim, photo, completion, submit — goes into an outbox on the device and replays in order once back online. A failure only pauses that one SKU, never the whole day. I kept the ordering logic as pure functions so the part that can lose data is the part covered most heavily by tests.
+
+### How do you tally defects with one hand?
+
+Two buttons per defect: `+` for mild, camera for critical. There's no gesture or menu to learn. Most real rows are a single piece, so those get a one-tap Accept / Reject. Re-inspection reuses the same screen, so it needs no new muscle memory.
+
+### How do you make evidence reliable without slowing people down?
+
+Completing an item is blocked only while a *critical* defect has no photo. Evidence is guaranteed where a client might dispute it, and optional everywhere else.
+
+### How do you accept every client's format?
+
+By studying real client workbooks, not inventing a template. I mapped their different defect names to a fixed list of 28 codes with aliases, and made identity columns flexible. Every import shows a preview for a person to confirm, so nothing is written on a guess.
+
+### What infrastructure does a small team need?
+
+The boring kind. Postgres for data *and* photos, behind an authenticated route: no storage bucket to secure, no orphaned files. SQL migrations, server-checked roles, Docker Compose. One person can run it.
+
+## Impact
+
+| | Before | After |
+|---|---|---|
+| Recording findings | Paper, then re-typed | Once, on the phone, offline |
+| Duplicate data entry | Every inspection | None |
+| Client reports | About a week of pivot tables | One-click Excel export |
+| Visibility | At month end | Live |
+
+The company can take on more inspection work without adding administrative headcount.
+
+{/* TODO(kaif): add inspections per month, inspectors using it, or brands served once you have them. */}
+
+## What I'd do differently
+
+Photos in Postgres was the right call for launch — nothing to set up, nothing to clean up. As volume grows I'd move them to object storage behind the same authenticated route. The API was designed so that swap wouldn't change the app.

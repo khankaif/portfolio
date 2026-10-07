@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import PageTransition from "@/components/PageTransition";
+import Footer from "@/components/Footer";
+import ShortcutManager from "@/components/ShortcutManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Product Engineer — Design × Code × Ship",
-  description: "I'm a Product Engineer who designs and codes — no handoffs, no translation loss, just shipped products.",
+  title: { default: "Kaif Khan — Product Engineer", template: "%s — Kaif Khan" },
+  description: "Product engineer and former product designer. I build the software that runs real businesses — from the Figma file to the database to the server.",
 };
 
 export default function RootLayout({
@@ -32,12 +34,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
+          <ShortcutManager />
           <Navbar />
-          <div className="pt-3">
+          <div className="min-h-[calc(100vh-140px)]">
             <PageTransition>
               {children}
             </PageTransition>
           </div>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

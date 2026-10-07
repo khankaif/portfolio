@@ -45,6 +45,42 @@
   --radius-2xl: calc(var(--radius) + 4px);
   --radius-3xl: calc(var(--radius) + 6px);
   --radius-4xl: calc(var(--radius) + 8px);
+
+  /* ── Type scale — the only text sizes allowed on pages ─────────────────
+     display  hero / case-study H1        title    page H1
+     heading  section H2                  stat     metric numbers
+     body     all prose                   small    meta, captions, nav
+     micro    mono uppercase labels                                        */
+  --text-display: clamp(1.8rem, 4.5vw, 2.8rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.03em;
+  --text-title: clamp(1.6rem, 4vw, 2.4rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.03em;
+  --text-heading: 1.125rem;
+  --text-heading--line-height: 1.4;
+  --text-heading--letter-spacing: -0.02em;
+  --text-stat: 1.375rem;
+  --text-stat--line-height: 1.1;
+  --text-stat--letter-spacing: -0.03em;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.8;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.7;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.5;
+  --text-micro--letter-spacing: 0.08em;
+
+  /* ── Layout containers — page (wide), content (index), narrow (reading),
+        prose (text measure inside wider shells) ── */
+  --container-page: 65rem;
+  --container-content: 47.5rem;
+  --container-narrow: 35rem;
+  --container-prose: 65ch;
+
+  /* ── Page rhythm — uniform first-content position + section gap ── */
+  --spacing-page-top: 6rem;
+  --spacing-section: 4rem;
 }
 
 :root {
@@ -59,7 +95,7 @@
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.145 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.55 0 0);
+  --muted-foreground: oklch(0.46 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.145 0 0);
   --destructive: oklch(0.58 0.22 27);
@@ -84,9 +120,9 @@
 }
 
 .dark {
-  --background: #000000;
-  /* ~ #0a0a0a */
-  --foreground: oklch(0.99 0 0);
+  --background: oklch(0.15 0 0);
+  /* ~ #262626 */
+  --foreground: oklch(0.85 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.99 0 0);
   --popover: oklch(0.205 0 0);
@@ -165,33 +201,14 @@
 
 /* ── Portfolio accent color (matches Hero gradient palette) ────────────── */
 :root {
-  --portfolio-accent: #FF9F21;
+  --portfolio-accent: oklch(0.58 0.15 50);
 }
 
 .dark {
-  --portfolio-accent: #00E1FF;
+  --portfolio-accent: oklch(0.80 0.08 230);
 }
 
-/* ── Blinking cursor on mono section labels ────────────────────────────── */
-@keyframes blink-cursor {
 
-  0%,
-  49% {
-    opacity: 1;
-  }
-
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.mono-label::after {
-  content: '_';
-  animation: blink-cursor 1.2s step-end infinite;
-  color: var(--portfolio-accent);
-  margin-left: 1px;
-}
 
 /* ── Accent left-border flash on hoverable rows ────────────────────────── */
 .accent-left-hover {
