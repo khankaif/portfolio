@@ -1,10 +1,12 @@
 import { getProjects } from "@/lib/projects";
 import PageShell from "@/components/layout/PageShell";
 import PageHeader from "@/components/layout/PageHeader";
-import LiquidWorkList from "@/components/liquid/LiquidWorkList";
+import ProjectList from "@/components/ProjectList";
 
-// Production systems pour pale blue; design and in-progress work lavender.
-const LAVENDER = new Set(["zefyron-saas-platform", "aethra"]);
+export const metadata = {
+    title: "Work",
+    description: "Detailed case studies on systems, operations, and platforms I've designed and shipped.",
+};
 
 export default async function ProjectsPage() {
     const projects = await getProjects();
@@ -19,17 +21,7 @@ export default async function ProjectsPage() {
                     lede="Each one is written as a business story: what was broken, what I owned, what shipped, and what changed."
                 />
 
-                <LiquidWorkList
-                    projects={projects.map(({ slug, meta }) => ({
-                        slug,
-                        title: meta.title,
-                        description: meta.description,
-                        role: meta.role,
-                        year: meta.date.slice(0, 4),
-                        stack: meta.stack ?? [],
-                        hue: LAVENDER.has(slug) ? 1 : 0,
-                    }))}
-                />
+                <ProjectList projects={projects.map(({ slug, meta }) => ({ slug, meta }))} />
             </section>
         </PageShell>
     );

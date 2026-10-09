@@ -17,15 +17,15 @@ export default function DemoFrame({
     className?: string;
 }) {
     return (
-        <figure className={cn("not-prose my-10 rounded-md border border-border/60 bg-background/70 backdrop-blur-sm overflow-hidden", className)}>
-            <figcaption className="flex flex-col gap-3 border-b border-border/60 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <figure className={cn("not-prose my-12 sm:my-14 rounded-xl border border-border/70 bg-card/60 backdrop-blur-sm overflow-hidden", className)}>
+            <figcaption className="flex flex-col gap-3 border-b border-border/60 px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between bg-muted/30">
                 <div className="min-w-0">
                     <p className="text-small font-medium text-foreground">{title}</p>
                     <p className="text-small text-muted-foreground">{hint}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 sm:shrink-0">{controls}</div>
             </figcaption>
-            <div className="p-4">{children}</div>
+            <div className="p-5 sm:p-6">{children}</div>
         </figure>
     );
 }

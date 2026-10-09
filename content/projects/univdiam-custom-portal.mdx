@@ -18,17 +18,40 @@ export const meta = {
 
 UnivDiam makes custom jewelry for retailers. A store sends a request, UnivDiam's team draws it in CAD, the retailer approves or asks for changes, and the piece goes to the factory. Before this platform, all of that happened over WhatsApp, phone calls and email, and the only way to find out where an order stood was to ask someone.
 
+<BeforeAfter
+  beforeTitle="Before · Operational Friction"
+  beforeItems={[
+    "Orders and design revisions coordinated across chaotic WhatsApp threads and phone calls",
+    "CAD 3D files emailed back and forth with zero audit trail or version history",
+    "Retailers repeatedly asking staff for status updates with zero self-serve visibility",
+    "Manual pricing quotes typed on scratchpads leading to costly calculation mistakes"
+  ]}
+  afterTitle="After · The Shipped Platform"
+  afterItems={[
+    "Unified B2B order portal with end-to-end milestone and production stage tracking",
+    "Integrated CAD viewer with versioned client approval and annotation workflows",
+    "Real-time client-to-factory chat with optimistic message sync and delivery guarantees",
+    "Self-serve ordering for 20+ retailers, scaling from 14 to 63 orders per month"
+  ]}
+/>
+
 The platform puts each order in one place: the request, every CAD version, the quote and the conversation about it. It's a Turborepo monorepo with three React apps (retailers, staff, analytics) and one Express API on MySQL, with Socket.IO for anything live.
+
+<ArchitectureFlow />
 
 It went live in February 2026. By July it was handling 63 orders a month, up from 14, and 60% of them were placed by retailers themselves instead of typed in by staff.
 
-{/* TODO(kaif): screenshot of an order page with the chat open */}
-
-## The audit
+## The security audit
 
 In July, a few months after launch, I paused feature work and read the codebase end to end. Retailers were relying on it every day by then, and nobody had looked at it as a whole.
 
-I wrote up what I found as a list of numbered issues. Two were serious. Any logged-in user could update an order that wasn't theirs if they knew its ID (SEC-6). And chat messages were rendered as raw HTML without sanitizing (SEC-5). I fixed both that week, scoping order access to the stakeholders on the order and running every raw-HTML render through a sanitizer. I also moved sessions to HTTP-only refresh cookies with silent refresh, and made the socket server reject revoked tokens.
+<Callout type="security" title="Critical Vulnerabilities Patched: SEC-5 & SEC-6">
+I wrote up what I found as a numbered security audit. Two vulnerabilities were severe:
+
+- **SEC-6 (Broken Object-Level Authorization):** Any logged-in retailer could mutate orders belonging to other retailers by manipulating the order ID in payload parameters. I scoped order mutations strictly to verified stakeholders on that order.
+- **SEC-5 (Stored XSS):** Chat messages were rendered as raw HTML without sanitizing. I piped every render through an HTML sanitizer.
+- **Session Hardening:** Migrated user sessions to HTTP-only refresh cookies with silent background renewal, and made the Socket.IO server reject revoked or stale tokens immediately.
+</Callout>
 
 ## Chat kept losing messages
 
@@ -40,9 +63,13 @@ The fix was boring once I saw it. The client now gives each message an ID before
 
 <ChatSyncDemo />
 
-## Unread counts
+## Unread counts & watermarking
 
 Unread badges had the same kind of problem. They were counted in the browser, so two tabs or a phone and a laptop would disagree.
+
+<Callout type="insight" title="Why Watermarking Beats Client-Side Badge Counts">
+Counting unread badges in browser memory caused state drift across devices (phone vs laptop vs active tabs). By storing a single monotonic integer watermark (`last_read_id`) per user per order in the database, read receipts become resilient to out-of-order network requests and idempotent on replays.
+</Callout>
 
 I moved them to the server as a "watermark" per user per order: the ID of the newest message that person has seen. Roughly:
 
@@ -61,7 +88,7 @@ Existing users needed their read state filled in. My first backfill script would
 
 The business kept asking things like "how long do orders actually take?" and nobody could answer. So I wrote a script that runs read-only queries against production and outputs a single HTML file anyone can open.
 
-The interesting part was the data, not the charts. `orders.updated_at` looked useful but was wrong: old migrations had rewritten it in bulk. I worked out stage timings from the activity log instead. That gave the first real answer: 29.9 days from order to delivery, at the median, with the slowest orders stuck waiting for retailer approval.
+The interesting part was the data, not the charts. `orders.updated_at` looked useful but was wrong: old migrations had rewritten it in bulk. I worked out stage timings from the activity log instead. That gave the first real answer: **29.9 days from order to delivery**, at the median, with the slowest orders stuck waiting for retailer approval.
 
 ## Smaller things I'm glad I did
 

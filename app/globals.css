@@ -79,8 +79,8 @@
   --container-prose: 65ch;
 
   /* ── Page rhythm — uniform first-content position + section gap ── */
-  --spacing-page-top: 6rem;
-  --spacing-section: 4rem;
+  --spacing-page-top: 8.5rem;
+  --spacing-section: 6rem;
 }
 
 :root {

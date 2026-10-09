@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: { default: "Kaif Khan — Product Engineer", template: "%s — Kaif Khan" },
-  description: "Product engineer and former product designer. I build the software that runs real businesses — from the Figma file to the database to the server.",
+  description: "Product engineer and former product designer. I own systems end to end, from schema and API to real-time UI and deploys, for software that runs real businesses.",
 };
 
 export default function RootLayout({

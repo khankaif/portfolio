@@ -20,9 +20,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
                 transition={{ duration: 0.6, times: [0, 0.45, 1], ease: "easeInOut" }}
             />
 
-            {/* Hero's gradient palette, dimmed — shared canvas for all inner pages.
-                No animated blur here: filter animation on the whole page tree forces
-                full-page repaints and made inner pages shimmer. */}
+            {/* Hero's gradient palette, dimmed — shared canvas for all inner pages. */}
             {!isHome && <GlobalBackground />}
 
             {/* Page content */}

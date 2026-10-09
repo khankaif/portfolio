@@ -38,13 +38,9 @@ export default function Navbar() {
         <nav
             aria-label="Main"
             className={`
-                fixed top-4 sm:top-6 left-1/2 z-50 flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2
-                max-w-[calc(100vw-2rem)] rounded-full border border-border bg-background/80 text-foreground
-                backdrop-blur-md transition-all duration-300 ease-in-out
-                ${isDark
-                    ? "shadow-[0_0_0_1px_rgba(0,225,255,0.10),0_4px_28px_rgba(0,225,255,0.07)]"
-                    : "shadow-[0_0_0_1px_rgba(255,159,33,0.10),0_4px_28px_rgba(255,159,33,0.07)]"
-                }
+                fixed top-4 sm:top-6 left-1/2 z-50 flex items-center gap-1 p-1.5
+                rounded-full border border-border/70 bg-background/80 text-foreground
+                backdrop-blur-md shadow-sm transition-all duration-300 ease-in-out
                 ${isVisible ? "-translate-x-1/2 translate-y-0 opacity-100" : "-translate-x-1/2 -translate-y-[150%] opacity-0 pointer-events-none"}
             `}
         >
@@ -56,10 +52,11 @@ export default function Navbar() {
                         key={href}
                         href={href}
                         aria-label={label}
+                        title={label}
                         aria-current={isActive ? "page" : undefined}
                         className={`
-                            relative isolate flex items-center justify-center gap-2
-                            px-3 sm:px-3.5 h-10 rounded-full transition-all duration-300
+                            relative isolate flex items-center justify-center
+                            w-9 h-9 sm:w-10 sm:h-10 rounded-full transition-all duration-300
                             ${isActive ? "text-background" : "hover:bg-muted text-muted-foreground hover:text-foreground"}
                         `}
                     >
@@ -70,20 +67,20 @@ export default function Navbar() {
                                 transition={{ type: "spring", stiffness: 500, damping: 38 }}
                             />
                         )}
-                        <Icon size={16} strokeWidth={isActive ? 2.5 : 2} />
-                        <span className={`hidden sm:inline text-small ${isActive ? "font-semibold" : "font-medium"}`}>{label}</span>
+                        <Icon size={17} strokeWidth={isActive ? 2.5 : 2} />
                     </Link>
                 );
             })}
 
-            <div className="w-px h-5 mx-1 bg-border" />
+            <div className="w-px h-5 mx-0.5 bg-border" />
 
             <button
                 onClick={toggleTheme}
-                className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-300 cursor-pointer"
+                className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-300 cursor-pointer"
                 aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
             >
-                {isDark ? <Sun size={18} strokeWidth={2} /> : <Moon size={18} strokeWidth={2} />}
+                {isDark ? <Sun size={17} strokeWidth={2} /> : <Moon size={17} strokeWidth={2} />}
             </button>
         </nav>
     );

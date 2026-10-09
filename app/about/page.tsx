@@ -52,6 +52,7 @@ const STACK = [
     { group: "Backend", items: "Node.js, Express, PostgreSQL, MySQL, Redis, BullMQ, Socket.IO" },
     { group: "Infra", items: "Docker, nginx, pm2, Linux VPS, S3, Sentry" },
     { group: "Design", items: "Figma, design systems, prototyping, Webflow, Shopify" },
+    { group: "AI", items: "Claude Code, Antigravity, MCP servers, spec-driven development" },
 ];
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -77,8 +78,8 @@ export default async function About() {
                     <p>
                         Now I work across the whole stack: React and Next.js on the front; Node, Postgres, MySQL and
                         Redis behind it; deployed on servers I set up myself with Docker, nginx and pm2. The
-                        work is the unglamorous kind that matters — order pipelines, CAD approvals, factory
-                        inspections that have to work without signal.
+                        work is the unglamorous kind that matters — order pipelines, CAD approvals, factory QC
+                        inspections, and a stock ledger a diamond business runs on instead of spreadsheets.
                     </p>
                     <WordReveal
                         className="text-heading text-foreground"
@@ -119,7 +120,7 @@ export default async function About() {
                         {STACK.map((s) => (
                             <div
                                 key={s.group}
-                                className="grid sm:grid-cols-[120px_1fr] gap-1 sm:gap-6 py-3 border-b border-border/40 last:border-0"
+                                className="grid sm:grid-cols-[120px_1fr] gap-1 sm:gap-6 py-4 sm:py-5 border-b border-border/40 last:border-0"
                             >
                                 <dt className="font-mono text-micro uppercase text-muted-foreground pt-1">{s.group}</dt>
                                 <dd className="text-body text-foreground">{s.items}</dd>
@@ -134,7 +135,7 @@ export default async function About() {
 
 function Row({ title, subtitle, href, external }: { title: string; subtitle: string; href: string; external?: boolean }) {
     const className =
-        "accent-left-hover group flex items-center justify-between gap-3 py-3 border-b border-border/40 hover:bg-muted/20 transition-all duration-300 rounded-sm px-1 -mx-1";
+        "accent-left-hover group flex items-center justify-between gap-3 py-4 sm:py-5 border-b border-border/40 hover:bg-muted/20 transition-all duration-300 rounded-sm px-1 -mx-1";
     const body = (
         <>
             <div className="flex flex-col gap-0.5 min-w-0">

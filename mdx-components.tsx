@@ -4,6 +4,10 @@ import ChatSyncDemo from "@/components/demos/ChatSyncDemo";
 import OversellDemo from "@/components/demos/OversellDemo";
 import OutboxDemo from "@/components/demos/OutboxDemo";
 
+import BeforeAfter from "@/components/mdx/BeforeAfter";
+import Callout from "@/components/mdx/Callout";
+import ArchitectureFlow from "@/components/mdx/ArchitectureFlow";
+
 // Case-study prose styles — same type scale as the rest of the site.
 // Anchor ids for the case-study table of contents.
 const slugify = (node: React.ReactNode): string | undefined =>
@@ -28,10 +32,13 @@ const components: MDXComponents = {
     pre: CodeBlock,
     code: (props) => <code className="font-mono text-small text-foreground bg-muted px-1 py-0.5 rounded-sm" {...props} />,
     strong: (props) => <strong className="font-medium text-foreground" {...props} />,
-    // Interactive demos, usable by name in any case study.
+    // Interactive demos & rich story components, usable by name in any case study.
     ChatSyncDemo,
     OversellDemo,
     OutboxDemo,
+    BeforeAfter,
+    Callout,
+    ArchitectureFlow,
 };
 
 export function useMDXComponents(): MDXComponents {

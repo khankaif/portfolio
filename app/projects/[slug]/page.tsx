@@ -8,6 +8,7 @@ import PageShell from "@/components/layout/PageShell";
 import Section from "@/components/layout/Section";
 import CountUp from "@/components/motion/CountUp";
 import Toc from "@/components/motion/Toc";
+import BrowserFrame from "@/components/mdx/BrowserFrame";
 
 export const dynamicParams = false;
 
@@ -40,7 +41,7 @@ export default async function ProjectPage({
     return (
         <PageShell width="content">
             <Toc />
-            <article className="w-full flex flex-col gap-12">
+            <article className="w-full flex flex-col gap-12 sm:gap-16">
                 <ScrollReveal>
                 <header className="flex flex-col gap-6 max-w-prose">
                     <span className="font-mono text-micro uppercase text-muted-foreground">
@@ -55,9 +56,9 @@ export default async function ProjectPage({
 
                 {m.hero && (
                     <ScrollReveal delay={0.05}>
-                        <figure className="rounded-md overflow-hidden border border-border/40 bg-muted">
+                        <BrowserFrame url={m.url}>
                             <Image src={m.hero} alt={m.title} width={1600} height={900} priority className="w-full h-auto block object-cover" />
-                        </figure>
+                        </BrowserFrame>
                     </ScrollReveal>
                 )}
 
@@ -76,14 +77,12 @@ export default async function ProjectPage({
                 </div>
                 </ScrollReveal>
 
-
-
-                <div className="w-full h-px bg-border" />
+                <div className="w-full h-px bg-border my-2" />
 
                 {stats.length > 0 && (
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-px border border-border/40 rounded-sm overflow-hidden bg-border/40">
                         {stats.map((stat) => (
-                            <div key={stat.label} className="bg-background px-5 py-4">
+                            <div key={stat.label} className="bg-background px-6 py-6 sm:py-7">
                                 <p className="text-stat font-medium text-foreground"><CountUp value={stat.value} /></p>
                                 <p className="mt-2 font-mono text-micro uppercase text-muted-foreground">{stat.label}</p>
                             </div>

@@ -25,7 +25,7 @@ export default function Hero() {
     const isDark = theme === "dark";
 
     return (
-        <section className="relative isolate w-full min-h-[92svh] flex items-center overflow-hidden px-6 pt-24 pb-16">
+        <section className="relative isolate w-full min-h-[92svh] flex items-center overflow-hidden px-6 pt-32 sm:pt-40 pb-20 sm:pb-28">
             {/* Background — faded toward the bottom so it hands off to the page */}
             <div className="pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]">
                 <AnimatedGradient
@@ -37,7 +37,7 @@ export default function Hero() {
             </div>
 
             <motion.div
-                className="relative w-full max-w-content mx-auto flex flex-col gap-6"
+                className="relative w-full max-w-content mx-auto flex flex-col gap-7 sm:gap-8"
                 variants={container}
                 initial="hidden"
                 animate="visible"
@@ -59,9 +59,11 @@ export default function Hero() {
                 </motion.h1>
 
                 <motion.p variants={item} className="text-body text-muted-foreground max-w-prose">
-                    Four years designing SaaS products, now shipping them end to end — from the Figma file
-                    to the database to the server it runs on. Lately: an order and CAD-approval platform for
-                    a jewelry manufacturer, and an offline-first inspection app used on factory floors.
+                    Four years as a product designer, now a full-stack engineer who owns the system end to
+                    end: schema, API, real-time UI and the deploy. I'm the main engineer on a B2B jewelry
+                    ordering platform that went from 14 to 63 orders a month after launch. My strongest work
+                    is on data integrity: rules enforced in the database, safe migrations, and checking
+                    changes against production data before they ship.
                 </motion.p>
 
                 <motion.div variants={item} className="flex flex-wrap items-center gap-3 mt-2">
