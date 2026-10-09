@@ -26,8 +26,8 @@ export default function Hero() {
 
     return (
         <section className="relative isolate w-full min-h-[92svh] flex items-center overflow-hidden px-6 pt-32 sm:pt-40 pb-20 sm:pb-28">
-            {/* Background — faded toward the bottom so it hands off to the page */}
-            <div className="pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]">
+            {/* Background — pinned to the viewport so it runs behind the footer too; home is one screen, nothing to fade into */}
+            <div className="pointer-events-none fixed inset-0 -z-10">
                 <AnimatedGradient
                     color1={isDark ? "#00E1FF" : "#FF9F21"}
                     color2={isDark ? "#217AFF" : "#FF0303"}
