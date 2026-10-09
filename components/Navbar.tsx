@@ -9,7 +9,7 @@ import { useTheme } from "@/components/ThemeProvider";
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home },
-    { href: "/projects", label: "Work", icon: FolderKanban },
+    { href: "/works", label: "Work", icon: FolderKanban },
     { href: "/about", label: "About", icon: User },
     { href: "/contact", label: "Contact", icon: Send },
 ];

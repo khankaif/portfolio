@@ -68,7 +68,7 @@ export default function Hero() {
 
                 <motion.div variants={item} className="flex flex-wrap items-center gap-3 mt-2">
                     <Link
-                        href="/projects"
+                        href="/work"
                         className="group inline-flex items-center gap-2 h-11 px-5 rounded-full bg-foreground text-background text-small font-medium hover:opacity-90 transition-opacity"
                     >
                         See the work
