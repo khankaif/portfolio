@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Github, Linkedin, Mail, Copy, Check } from "lucide-react";
+import { Github, Linkedin, Mail, Copy, Check, FileText } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import PageShell from "@/components/layout/PageShell";
 import PageHeader from "@/components/layout/PageHeader";
@@ -12,6 +12,7 @@ const EMAIL = "kaifkhan9619@gmail.com";
 const SOCIALS = [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/khankaif/", icon: Linkedin },
     { label: "GitHub", href: "https://github.com/khankaif", icon: Github },
+    { label: "Resume", href: "/Kaif_Khan_Resume_2026_SWE.pdf", icon: FileText },
 ];
 
 export default function ContactPage() {
