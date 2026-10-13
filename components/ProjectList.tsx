@@ -37,7 +37,7 @@ export default function ProjectList({ projects }: { projects: ProjectItem[] }) {
             {projects.map(({ slug, meta }) => (
                 <motion.div key={slug} variants={rowVariants}>
                     <Link
-                        href={`/projects/${slug}`}
+                        href={`/works/${slug}`}
                         className="accent-left-hover group flex items-start justify-between gap-4 py-6 sm:py-7 border-b border-border/40 hover:bg-muted/20 transition-all duration-300 rounded-sm px-3 -mx-3"
                     >
                         <div className="flex flex-col gap-1.5 min-w-0 max-w-prose">

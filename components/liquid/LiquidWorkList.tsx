@@ -105,7 +105,7 @@ function Row({
                 ref={(node: HTMLAnchorElement | null) => {
                     handle.element = node;
                 }}
-                href={`/projects/${p.slug}`}
+                href={`/works/${p.slug}`}
                 data-scramble
                 style={{ x, y, scale, rotate, zIndex: raised ? 10 : 1 }}
                 drag

@@ -30,8 +30,8 @@ export default function ShortcutManager() {
                     lastKeyRef.current = null;
                     return;
                 }
-                if (currentKey === "p") {
-                    router.push("/projects");
+                if (currentKey === "p" || currentKey === "w") {
+                    router.push("/works");
                     lastKeyRef.current = null;
                     return;
                 }

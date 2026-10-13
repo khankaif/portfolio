@@ -132,7 +132,7 @@ export default async function ProjectPage({
 
             <nav className="w-full border-t border-border/60 pt-6 flex items-center justify-between gap-5">
                 {prevProject ? (
-                    <Link href={`/projects/${prevProject.slug}`} className="group flex flex-col gap-1 min-w-0 no-underline">
+                    <Link href={`/works/${prevProject.slug}`} className="group flex flex-col gap-1 min-w-0 no-underline">
                         <span className="font-mono text-micro font-medium uppercase text-muted-foreground">
                             Previous
                         </span>
@@ -145,14 +145,14 @@ export default async function ProjectPage({
                 )}
 
                 <Link
-                    href="/projects"
+                    href="/works"
                     className="font-mono text-micro font-medium uppercase text-muted-foreground hover:text-muted-foreground transition-colors"
                 >
-                    All Projects
+                    All Work
                 </Link>
 
                 {nextProject ? (
-                    <Link href={`/projects/${nextProject.slug}`} className="group flex flex-col gap-1 text-right min-w-0 no-underline">
+                    <Link href={`/works/${nextProject.slug}`} className="group flex flex-col gap-1 text-right min-w-0 no-underline">
                         <span className="font-mono text-micro font-medium uppercase text-muted-foreground">
                             Next
                         </span>

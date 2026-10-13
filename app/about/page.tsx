@@ -98,7 +98,7 @@ export default async function About() {
                 <Section label="Case studies">
                     <div className="flex flex-col">
                         {projects.map(({ slug, meta }) => (
-                            <Row key={slug} title={meta.title} subtitle={meta.role} href={`/projects/${slug}`} />
+                            <Row key={slug} title={meta.title} subtitle={meta.role} href={`/works/${slug}`} />
                         ))}
                     </div>
                 </Section>
