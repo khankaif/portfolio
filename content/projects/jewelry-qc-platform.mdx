@@ -3,8 +3,8 @@ export const meta = {
   description: "Replaced paper inspection sheets with an app that works on factory floors without signal. Client reports went from a week of pivot tables to one click.",
   date: "2026-08-01",
   order: 3,
-  role: "Product Engineer — solo",
-  team: "Just me, with the ops team",
+  role: "Product Engineer — lead",
+  team: "Me (prototype + design), 3 interns on the rebuilds and Android port, the ops team",
   timeline: "2026",
   stats: [
     { value: "100%", label: "paperless inspections" },
@@ -37,6 +37,8 @@ The obvious fix — "put the paper form in an app" — would have failed on the 
 A phone app that works fully offline, is designed for one-handed tallying, and reads the spreadsheets clients already send instead of asking them to change. Then generate the monthly report from data that already exists.
 
 I cut the scope into four phases and shipped them in order: the inspection core online first, then offline sync, then spreadsheet imports, then reports. Each phase was usable and testable on its own, so the riskiest part — offline sync — was built on a core that already worked.
+
+I designed and built this version in Next.js: the outbox, the tally screen and the defect codes. An intern I mentored ported it to Vite + Express and Android (Capacitor), keeping those decisions intact.
 
 ## Decisions
 
@@ -76,5 +78,7 @@ The company can take on more inspection work without adding administrative headc
 {/* TODO(kaif): add inspections per month, inspectors using it, or brands served once you have them. */}
 
 ## What I'd do differently
+
+The earlier Express version uploaded photos straight to S3 with presigned URLs. For this offline-first version we moved them into Postgres to cut setup for a small team.
 
 Photos in Postgres was the right call for launch — nothing to set up, nothing to clean up. As volume grows I'd move them to object storage behind the same authenticated route. The API was designed so that swap wouldn't change the app.

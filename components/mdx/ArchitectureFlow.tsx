@@ -9,7 +9,7 @@ const LAYERS = [
     },
     {
         label: "Storage & Workers",
-        nodes: ["MySQL (Order & User State)", "Redis (Session & Socket PubSub)", "AWS S3 (CAD 3D Files & Images)"],
+        nodes: ["MySQL (Order & User State)", "Redis (BullMQ job queue)", "AWS S3 (CAD 3D Files & Images)"],
     },
 ];
 

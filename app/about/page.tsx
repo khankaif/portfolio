@@ -17,14 +17,14 @@ const EXPERIENCE = [
         when: "2025 — now",
         role: "Product Engineer",
         org: "Carpe Diam · Mumbai",
-        text: "Main engineer on UnivDiam, the B2B order and CAD-approval platform, plus an offline-first QC inspection app, an internal CAD workflow tool and a commerce rebuild. I lead two engineering interns.",
+        text: "Top contributor among 6 engineers on UnivDiam, the B2B order and CAD-approval platform. Lead on an offline-first QC inspection app, an internal CAD workflow tool and a commerce rebuild. I lead three engineering interns.",
         current: true,
     },
     {
         when: "2021 — 2025",
         role: "UX/UI Designer, intern → full-time",
         org: "VCBay · Remote",
-        text: "Led product design for Zefyron, a SaaS suite for startups, investors and corporates. Built its design system, plus Webflow sites for 5+ brands and investor decks.",
+        text: "Founding design team at Zefyron, a SaaS suite for startups, investors, corporates and universities. Designed and built its components in React, maintained the design system, and shipped Webflow sites for 5 brands plus the seed-round pitch materials.",
     },
     {
         when: "2021",
@@ -68,8 +68,8 @@ export default async function About() {
                 <div className="flex flex-col gap-4 text-body text-muted-foreground max-w-prose">
                     <p>
                         I studied Computer Engineering, then spent four years designing products — starting as an
-                        intern and ending up leading design for Zefyron, a SaaS platform for startups and investors.
-                        Design systems, enterprise dashboards, the website, the pitch deck.
+                        intern in Zefyron's founding year and growing into a designer who also built what I designed.
+                        Design systems, React components, enterprise dashboards, the website, the pitch deck.
                     </p>
                     <p>
                         Designing was never the end of it for me. I kept wanting to own what happened after the
